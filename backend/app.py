@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
+import preprocessing
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
@@ -32,6 +33,11 @@ def sql_search(episode):
     keys = ["id","title","descr"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])
+
+#preprocess csv files and output recipes in JSON format and construct an inverted index mapping ingredient ids to recipe ids. 
+recipes = preprocessing.result
+inv_idx = preprocessing.inv_idx
+
 
 @app.route("/")
 def home():
