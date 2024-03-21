@@ -1,22 +1,80 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>DNM's Kitchen</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Girassol&display=swap" rel="stylesheet">
 <body>
     <div class="full-body-container">
         <div class="top-text">
-            <div class="google-colors">
-                <h1 id="google-4">4</h1>
-                <h1 id="google-3">3</h1>
-                <h1 id="google-0-1">0</h1>
-                <h1 id="google-0-2">0</h1>
+            <div class="logo">
+                <div class="logo-text">
+                    <h3>What will you cook in</h3>
+                    <h1 id="google-s">DNM's KITCHEN</h1>
+                </div>
+                <img id="dnm-logo" src="../static/images/dnms-kitchen-logo.svg" />
             </div>
             <div class="input-box" onclick="sendFocus()">
-                <img src="{{ url_for('static', filename='images/mag.png') }}" />
-                <input placeholder="Search for a Keeping up with the Kardashians episode" id="filter-text-val" onkeyup="filterText()">
+                <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
+                <input placeholder="Search for recipes with your ingredients" id="filter-text-val" onkeyup="filterText()">
             </div>
+            <!-- TODO: USER INPUTS -->
+            <!-- I'm just hiding the inputs until the page setup/design is ready -->
+            <!-- <div class="inputs-row">
+                <fieldset>
+                    <legend>Dietary Restrictions:</legend>
+                  
+                    <div>
+                      <input type="checkbox" id="scales" name="scales" checked />
+                      <label for="scales">Vegetarian</label>
+                    </div>
+                  
+                    <div>
+                      <input type="checkbox" id="horns" name="horns" />
+                      <label for="horns">Vegan</label>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Available Appliances:</legend>
+                  
+                    <div>
+                      <input type="checkbox" id="scales" name="scales" checked />
+                      <label for="scales">Microwave</label>
+                    </div>
+                  
+                    <div>
+                      <input type="checkbox" id="horns" name="horns" />
+                      <label for="horns">Oven</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="horns" name="horns" />
+                        <label for="horns">Stove</label>
+                      </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Max Cooking Time:</legend>
+                  
+                    <div>
+                      <input type="checkbox" id="scales" name="scales" checked />
+                      <label for="scales">5 min</label>
+                    </div>
+                  
+                    <div>
+                      <input type="checkbox" id="horns" name="horns" />
+                      <label for="horns">10 min</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="horns" name="horns" />
+                    <label for="horns">20 min</label>
+                    </div>
+                    <div>
+                    <input type="checkbox" id="horns" name="horns" />
+                    <label for="horns">1 hour</label>
+                    </div>
+                  </fieldset>
+                  
+            </div> -->
         </div>
         <div id="answer-box">
 
@@ -24,6 +82,10 @@
     </div>
 
     <script>
+
+        function toggleButton() {
+
+        }
 
         function answerBoxTemplate(title,titleDesc){
             return `<div class=''>

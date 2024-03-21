@@ -1,15 +1,62 @@
+body {
+    background-color: black;
+    width: 100vw;
+}
+
 .full-body-container{
+    color: white;
     position: absolute;
     top:0;
     left:0;
     right:0;
     bottom:0;
-    width:100%;
-    height:100%;
+    height: auto;
+    margin: 0;
     display: flex;
     justify-content: start;
     align-items: center;
     flex-direction: column;
+}
+
+h1{
+    font-size: 60px;
+    margin: 0;
+}
+
+h3 {
+    font-size: 24px;
+    color: white;
+    margin: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-family: "Girassol", serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 10px 0px;
+    width: 90vw;
+}
+
+#dnm-logo {
+    height: 500px;
+    margin: 10px;
+}
+
+.logo-text {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.inputs-row {
+    margin-top: 50px;
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    /* align-items: center; */
 }
 
 #google-c{
@@ -49,11 +96,13 @@
 }
 
 .input-box{
-    border-radius: 50px;
-    border:1px solid black;
+    /* background-color: white; */
+    /* border-radius: 50px; */
+    color: white;
+    border-bottom:1px solid white;
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 50px;
     padding:12px;
     width: 600px;
 }
@@ -75,6 +124,8 @@
     font-size: 16px;
     border: none;
     outline: 0;
+    background-color: black;
+    color: white;
 }
 
 #answer-box{
