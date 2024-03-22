@@ -15,10 +15,15 @@
                 </div>
                 <img id="dnm-logo" src="../static/images/dnms-kitchen-logo.svg" />
             </div>
-            <div class="input-box" onclick="sendFocus()">
+            <div class="input-box" onclick="sendFocus('filter-text-val')">
                 <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
                 <input placeholder="Search for recipes with your ingredients" id="filter-text-val" onkeyup="filterText()">
             </div>
+            <div class="input-box" onclick="sendFocus('minutes-input')">
+              <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
+              <input placeholder="Maximum cooking time" id="minutes-input" onkeyup="filterText()">
+            </div>
+            
             <!-- TODO: USER INPUTS -->
             <!-- I'm just hiding the inputs until the page setup/design is ready -->
             <!-- <div class="inputs-row">
@@ -82,26 +87,34 @@
     </div>
 
     <script>
-        function answerBoxTemplate(title,titleDesc){
+
+        function toggleButton() {
+
+        }
+
+        function answerBoxTemplate(name,ingredients,minutes,steps){
             return `<div class=''>
-                <h3 class='episode-title'>${title}</h3>
-                <p class='episode-desc'>${titleDesc}</p>
+                <h3 class='episode-title'>${name}</h3>
+                <p class='episode-desc'>Ingredients: ${ingredients}</p>
+                <p class='episode-desc'>Time to make: ${minutes} minutes</p>
+                <p class='episode-desc'>Steps: ${steps}</p>
             </div>`
         }
 
-        function sendFocus(){
-            document.getElementById('filter-text-val').focus()
+        function sendFocus(inputId){
+            document.getElementById('inputId').focus()
         }
 
         function filterText(){
             document.getElementById("answer-box").innerHTML = ""
             console.log(document.getElementById("filter-text-val").value)
-            fetch("/episodes?" + new URLSearchParams({ title: document.getElementById("filter-text-val").value }).toString())
+            console.log(document.getElementById("minutes-input").value)
+            fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("filter-text-val").value, minutes: document.getElementById("minutes-input").value }).toString())
             .then((response) => response.json())
             .then((data) => data.forEach(row => {
                 
                 let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = answerBoxTemplate(row.title,row.descr)
+                tempDiv.innerHTML = answerBoxTemplate(row.nam,row.ingredients,row.minutes,row.steps)
                 document.getElementById("answer-box").appendChild(tempDiv)
             }));
 
