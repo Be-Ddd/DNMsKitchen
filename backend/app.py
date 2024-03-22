@@ -13,9 +13,9 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 LOCAL_MYSQL_USER = "root"
-LOCAL_MYSQL_USER_PASSWORD = "admin"
+LOCAL_MYSQL_USER_PASSWORD = ""
 LOCAL_MYSQL_PORT = 3306
-LOCAL_MYSQL_DATABASE = "kardashiandb"
+LOCAL_MYSQL_DATABASE = "test"
 
 mysql_engine = MySQLDatabaseHandler(LOCAL_MYSQL_USER,LOCAL_MYSQL_USER_PASSWORD,LOCAL_MYSQL_PORT,LOCAL_MYSQL_DATABASE)
 
@@ -28,9 +28,15 @@ CORS(app)
 # Sample search, the LIKE operator in this case is hard-coded, 
 # but if you decide to use SQLAlchemy ORM framework, 
 # there's a much better and cleaner way to do this
-def sql_search(episode):
+def sql_search_og(episode):
     query_sql = f"""SELECT * FROM episodes WHERE LOWER( title ) LIKE '%%{episode.lower()}%%' limit 10"""
     keys = ["id","title","descr"]
+    data = mysql_engine.query_selector(query_sql)
+    return json.dumps([dict(zip(keys,i)) for i in data])
+
+def sql_search(ingr, mins):
+    query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' AND minutes < {mins} limit 10"""
+    keys = ["id","nam","minutes","ingredients", "steps", "descr", "reviews"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])
 
@@ -43,10 +49,11 @@ inv_idx = preprocessing.inv_idx
 def home():
     return render_template('base.html',title="sample html")
 
-@app.route("/episodes")
-def episodes_search():
-    text = request.args.get("title")
-    return sql_search(text)
+@app.route("/recipes")
+def recipes_search():
+    ingr = request.args.get("ingredient")
+    mins = request.args.get("minutes")
+    return sql_search(ingr, mins)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
