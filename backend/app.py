@@ -34,8 +34,8 @@ def sql_search_og(episode):
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])
 
-def sql_search(ingr):
-    query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' limit 10"""
+def sql_search(ingr, mins):
+    query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' AND minutes < {mins} limit 10"""
     keys = ["id","nam","minutes","ingredients", "steps", "descr", "reviews"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])
@@ -50,9 +50,10 @@ def home():
     return render_template('base.html',title="sample html")
 
 @app.route("/recipes")
-def episodes_search():
-    text = request.args.get("nam")
-    return sql_search(text)
+def recipes_search():
+    ingr = request.args.get("ingredient")
+    mins = request.args.get("minutes")
+    return sql_search(ingr, mins)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
