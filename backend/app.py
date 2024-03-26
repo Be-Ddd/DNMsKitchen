@@ -35,7 +35,7 @@ def sql_search_og(episode):
     return json.dumps([dict(zip(keys,i)) for i in data])
 
 def sql_search(ingr, mins):
-    query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' AND minutes < {mins} limit 10"""
+    query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' AND minutes <= {mins} limit 10"""
     keys = ["id","nam","minutes","ingredients", "steps", "descr", "reviews"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])

@@ -29,6 +29,10 @@ h3 {
     margin: 0;
 }
 
+hr {
+    margin: 15px 0px;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -40,8 +44,9 @@ h3 {
     width: 90vw;
 }
 
-#dnm-logo {
-    height: 500px;
+#logo-img {
+    height: 45vh;
+    max-height: 600px;
     margin: 10px;
 }
 
@@ -49,6 +54,7 @@ h3 {
     display: flex;
     align-items: center;
     flex-direction: column;
+    color: #DB4437;
 }
 
 .inputs-row {
@@ -57,6 +63,33 @@ h3 {
     justify-content: left;
     width: 100%;
     /* align-items: center; */
+}
+
+/* .no-resutls-box {
+    display: flex;
+    justify-content: center;
+} */
+
+.no-results {
+    color: red;
+    font-size: 15pt;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 400;
+}
+
+.submit-button {
+    color: white;
+    background-color: #c6382b;
+    border-radius: 5px;
+    border: none;
+    font-family: "Girassol", serif;
+    font-size: 14pt;
+    padding: 5px 10px;
+    margin: 30px;
+}
+
+.submit-button:hover {
+    background-color: #9d2c22;
 }
 
 #google-c{
@@ -130,11 +163,15 @@ h3 {
 
 #answer-box{
     width: 700px;
-    margin-top:50px; 
+    margin-top:20px; 
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .episode-title{
     font-family: 'Kanit', sans-serif;
+    color: #DB4437;
 }
 
 .episode-desc{
