@@ -4,26 +4,69 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from helpers.MySQLDatabaseHandler import MySQLDatabaseHandler
 import preprocessing
+import pandas as pd
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
 os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 
-# These are the DB credentials for your OWN MySQL
-# Don't worry about the deployment credentials, those are fixed
-# You can use a different DB name if you want to
-LOCAL_MYSQL_USER = "root"
-LOCAL_MYSQL_USER_PASSWORD = "xmjrnu66"
-LOCAL_MYSQL_PORT = 3306
-LOCAL_MYSQL_DATABASE = "test"
+# Get the directory of the current script
+current_directory = os.path.dirname(os.path.abspath(__file__))
 
-mysql_engine = MySQLDatabaseHandler(LOCAL_MYSQL_USER,LOCAL_MYSQL_USER_PASSWORD,LOCAL_MYSQL_PORT,LOCAL_MYSQL_DATABASE)
+# Specify the path to the JSON file relative to the current script
+json_file_path = os.path.join(current_directory, 'processed_data.json')
 
-# Path to init.sql file. This file can be replaced with your own file for testing on localhost, but do NOT move the init.sql file
-mysql_engine.load_file_into_db()
+# Assuming your JSON data is stored in a file named 'processed_data.json'
+with open(json_file_path, 'r') as file:
+    data = json.load(file)
+    df = pd.DataFrame(data)
+    # episodes_df = pd.DataFrame(data['episodes'])
+    # reviews_df = pd.DataFrame(data['reviews'])
 
 app = Flask(__name__)
 CORS(app)
+
+def json_search(ingr, mins):
+    matches = []
+    
+    #extract list of ingredients from user query
+    ingr_list = preprocessing.tokenize_ingr_list(ingr)
+    print(ingr_list)
+
+    scores = {}
+    for index, row in df.iterrows():
+        if any(ingredient in row['ingredients'] for ingredient in ingr_list):
+            sim_score = preprocessing.jaccard_similarity(ingr_list, row['ingredients'])
+            scores[row["id"]] = sim_score
+    scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
+    print(scores)
+
+    matches = df[(df['id'].isin(scores.keys())) & (df['minutes'] <= int(mins))]
+    matches['similarity_score'] = matches['id'].map(scores)
+    matches = matches.sort_values(by='similarity_score', ascending=False)
+    matches_json = matches.to_json(orient='records')
+    return matches_json
+
+    # #if no ingredients in query, then possible outputted recipes = whole recipe set, otherwise filter down recipes based on ingredients in query
+    # #find intersection between all recipe_ids that contain inputted ingredients in their ingredient lists (intersection = recipes that contain all of ingredients in query)
+    # #jacc_scores_dict is a dictionary with keys = recipe id and values = jacc scores based  on similarity of ingr list to user query of ingredients. 
+    # if len(ingr_list) != 0: 
+    #     intersection_acc = set(ingr_list[0])
+    #     for ing in ingr_list: 
+    #         recipes_with_ing = set(preprocessing.inv_idx[ing])
+    #         intersection_acc = intersection_acc.intersection(recipes_with_ing) 
+        
+    #     jacc_scores_dict = preprocessing.jacc_dict_ing(ingr_list,intersection_acc)
+        
+    #     #if intersection empty, find union of recipes with inputted ingredients (union = recipes that contain 1 or more of ingredients in query)
+    #     union_acc = set()
+    #     for ing in ingr_list: 
+    #         recipes_with_ing = set(preprocessing.inv_idx[ing])
+    #         intersection_acc = intersection_acc.union(recipes_with_ing) 
+        
+    #     jacc_scores_dict = preprocessing.jacc_dict_ing(ingr_list, union_acc)
+
+    #     print("jacc: ", jacc_scores_dict)
 
 # Sample search, the LIKE operator in this case is hard-coded, 
 # but if you decide to use SQLAlchemy ORM framework, 
@@ -104,7 +147,7 @@ def home():
 def recipes_search():
     ingr = request.args.get("ingredient")
     mins = request.args.get("minutes")
-    return sql_search(ingr, mins)
+    return json_search(ingr, mins)
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
