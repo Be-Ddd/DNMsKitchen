@@ -23,10 +23,13 @@ df['avg_rating']  = df.groupby('id')['rating'].transform('mean')
 df_review = df.groupby('id')['review'].agg(list).reset_index()
 df = df.drop(['rating', 'review'], axis=1).drop_duplicates()
 result = pd.merge(df, df_review, on='id', how='inner')
+df['ingredient_ids'] = df['ingredient_ids'].apply(ast.literal_eval)
+df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
+df['steps'] = df['steps'].apply(ast.literal_eval)
 print(result.head())
 
 # Convert data frames to json format
-result.to_json('processed_data.json', orient='records', lines=True)
+df.to_json('processed_data.json', orient='records')
 
 # Construct the inverted index
 inv_idx_df = result[['id', 'ingredient_ids']]
