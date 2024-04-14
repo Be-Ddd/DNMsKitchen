@@ -2,6 +2,7 @@ import pandas as pd
 import ast
 from typing import List, Dict
 from collections import defaultdict
+import re
 
 # Read the CSV files
 raw_recipes = pd.read_csv('static/data/RAW_recipes_cut.csv')
@@ -43,3 +44,24 @@ def build_inv_idx(recipe_ing: List[dict]) -> dict:
 
 inv_idx = build_inv_idx(inv_idx_dict)
 print(inv_idx['648'])
+
+#def jaccard(ingr_list1, ingr_list2):
+#    set1 = set([stemmer.stem(w.lower()) for w in ingr_list1])
+#    set2 = set([stemmer.stem(w.lower()) for w in ingr_list2])
+#    if len(set.union(set1, set2)) == 0:
+#        return 0
+#    return len(set.intersection(set1, set2))/len(set.union(set1, set2))
+
+# split the string by space, ignoring commas
+# Returns: list of ingredient strings
+def tokenize_ingr_list(ingr_input: str) -> List[str]:
+   items = re.split(r'\s*|,\s*', ingr_input)
+
+def jaccard_similarity(list1: List[str], list2: List[str]) -> float:
+    set1 = set(list1)
+    set2 = set(list2)
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    if union == 0:
+        return 0.0
+    return intersection / union
