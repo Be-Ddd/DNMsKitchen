@@ -14,7 +14,7 @@ merged_data = pd.merge(raw_recipes, pp_recipes, on='id', how='inner')
 recipes = merged_data[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description']]
 recipes_review_merge = pd.merge(recipes, interactions, left_on='id',right_on='recipe_id', how='inner')
 recipes_review = recipes_review_merge[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'rating','review']]
-print(recipes_review.head())
+print(recipes_review['ingredients'])
 
 # Compute average rating and combine reviews into a list of reviews
 # Drop duplicated rows
@@ -23,7 +23,7 @@ df['avg_rating']  = df.groupby('id')['rating'].transform('mean')
 df_review = df.groupby('id')['review'].agg(list).reset_index()
 df = df.drop(['rating', 'review'], axis=1).drop_duplicates()
 result = pd.merge(df, df_review, on='id', how='inner')
-print(result.head())
+#print(result.head())
 
 # Convert data frames to json format
 result.to_json('processed_data.json', orient='records', lines=True)
@@ -65,3 +65,18 @@ def jaccard_similarity(list1: List[str], list2: List[str]) -> float:
     if union == 0:
         return 0.0
     return intersection / union
+
+#Returns a dictionary of recipe ids mapped to jaccard similarity scores. Jaccard similarity calculated based on query of ingredients and recipe ingredient lists.  
+# Parameters: 
+#   Input 1 is a list of ingredients from user query.
+#   Input 2 is a set of recipe ids. 
+def jacc_dict_ing(ingr_list, set):
+  jacc_scores_dict = {}
+  #order recipes by jaccard similarity
+  for recipe_id in set:
+    #find recipe row in df
+    recipe_ing_list = recipes_review.loc[recipes_review['id'] == recipe_id, 'ingredients'].values[0]
+    #find jaccsim(query, recipe ingredient list)
+    jacc_score = jaccard_similarity(ingr_list, recipe_ing_list)
+    jacc_scores_dict[recipe_id]= jacc_score
+  return jacc_scores_dict
