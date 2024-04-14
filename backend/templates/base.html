@@ -86,12 +86,13 @@
     </div>
 
     <script>
-        function answerBoxTemplate(name,ingredients,minutes,steps){
+        function answerBoxTemplate(name,ingredients,minutes,steps,avgrating){
             return `<div class=''>
                 <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>Ingredients: ${ingredients}</p>
                 <p class='episode-desc'>Time to make: ${minutes} minutes</p>
                 <p class='episode-desc'>Steps: ${steps}</p>
+                <p class='episode-desc'>Our Rating: ${avgrating}</p>
                 <hr>
             </div>`
         }
@@ -120,7 +121,7 @@
                 if (data.length != 0) {
                   data.forEach(row => {
                       let tempDiv = document.createElement("div")
-                      tempDiv.innerHTML = answerBoxTemplate(row.nam,row.ingredients,row.minutes,row.steps)
+                      tempDiv.innerHTML = answerBoxTemplate(row.nam,row.ingredients,row.minutes,row.steps, row.avgrating)
                       document.getElementById("answer-box").appendChild(tempDiv)
                   })
                 } else {

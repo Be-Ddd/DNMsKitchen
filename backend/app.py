@@ -13,7 +13,7 @@ os.environ['ROOT_PATH'] = os.path.abspath(os.path.join("..",os.curdir))
 # Don't worry about the deployment credentials, those are fixed
 # You can use a different DB name if you want to
 LOCAL_MYSQL_USER = "root"
-LOCAL_MYSQL_USER_PASSWORD = ""
+LOCAL_MYSQL_USER_PASSWORD = "Midtv1929"
 LOCAL_MYSQL_PORT = 3306
 LOCAL_MYSQL_DATABASE = "test"
 
@@ -36,9 +36,35 @@ def sql_search_og(episode):
 
 def sql_search(ingr, mins):
     query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' AND minutes <= {mins} limit 10"""
-    keys = ["id","nam","minutes","ingredients", "steps", "descr", "reviews"]
+    
+    keys = ["id","nam","minutes","ingredients", "steps", "descr", "avgrating", "reviews"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])
+
+def sql_search_fail(ingr, mins):
+    # Split the ingredients into individual items
+    ingredients = [ingredient.strip() for ingredient in ingr.split(",")]
+    # Construct the SQL query to count matching ingredients and filter recipes
+    query_sql = f"""
+        SELECT 
+            *, 
+            (SELECT COUNT(*) FROM ingredients WHERE recipes.id = ingredients.recipe_id AND ingredients.ingredient IN ({', '.join(['%s'] * len(ingredients))})) AS matching_count
+        FROM 
+            recipes 
+        WHERE 
+            (SELECT COUNT(*) FROM ingredients WHERE recipes.id = ingredients.recipe_id AND ingredients.ingredient IN ({', '.join(['%s'] * len(ingredients))})) = %s 
+            AND minutes <= %s 
+        LIMIT 10
+    """
+    # Parameters for the SQL query: list of ingredients, count of ingredients, and maximum cooking time
+    # params = ingredients + [len(ingredients), mins]
+    keys = ["id", "nam", "minutes", "ingredients", "steps", "descr", "avgrating", "reviews"]
+    # Assuming mysql_engine.query_selector() executes the query with parameters and returns the result
+    #data = mysql_engine.query_selector(query_sql, params)
+    # Convert the result into JSON format
+    data = mysql_engine.query_selector(query_sql)
+    return json.dumps([dict(zip(keys, i)) for i in data])
+
 
 #preprocess csv files and output recipes in JSON format and construct an inverted index mapping ingredient ids to recipe ids. 
 recipes = preprocessing.result
