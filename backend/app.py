@@ -37,6 +37,31 @@ def sql_search_og(episode):
 def sql_search(ingr, mins):
     query_sql = f"""SELECT * FROM recipes WHERE ingredients LIKE '%%{ingr}%%' AND minutes <= {mins} limit 10"""
     
+    #extract list of ingredients from user query
+    ingr_list = preprocessing.tokenize_ingr_list(ingr)
+
+    #if no ingredients in query, then possible outputted recipes = whole recipe set, otherwise filter down recipes based on ingredients in query
+    #find intersection between all recipe_ids that contain inputted ingredients in their ingredient lists (intersection = recipes that contain all of ingredients in query)
+    #jacc_scores_dict is a dictionary with keys = recipe id and values = jacc scores based  on similarity of ingr list to user query of ingredients. 
+    if len(ingr_list) != 0: 
+        intersection_acc = set(ingr_list[0])
+        for ing in ingr_list: 
+            recipes_with_ing = set(preprocessing.inv_idx[ing])
+            intersection_acc = intersection_acc.intersection(recipes_with_ing) 
+        
+        jacc_scores_dict = preprocessing.jacc_dict_ing(ingr_list,intersection_acc)
+        
+        #if intersection empty, find union of recipes with inputted ingredients (union = recipes that contain 1 or more of ingredients in query)
+        union_acc = set()
+        for ing in ingr_list: 
+            recipes_with_ing = set(preprocessing.inv_idx[ing])
+            intersection_acc = intersection_acc.union(recipes_with_ing) 
+        
+        jacc_scores_dict = preprocessing.jacc_dict_ing(ingr_list, union_acc)
+    
+
+
+
     keys = ["id","nam","minutes","ingredients", "steps", "descr", "avgrating", "reviews"]
     data = mysql_engine.query_selector(query_sql)
     return json.dumps([dict(zip(keys,i)) for i in data])
