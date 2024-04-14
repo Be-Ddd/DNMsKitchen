@@ -5,6 +5,7 @@ Docker/__pycache__
 venv/
 dnm_venv/
 sql_template
+json_env
 
 *.pyc
 __pycache__/
