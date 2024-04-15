@@ -3,29 +3,31 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
+  rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Girassol&display=swap" rel="stylesheet">
+
 <body>
-    <div class="full-body-container">
-        <div class="top-text">
-            <div class="logo">
-                <div class="logo-text">
-                    <h3>What will you cook in</h3>
-                    <h1 id="google-s">DNM's KITCHEN</h1>
-                </div>
-                <img id="logo-img" src="../static/images/dnms-kitchen-logo.svg" />
-            </div>
-            <div class="input-box" onclick="sendFocus('ingredients-input')">
-                <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
-                <input placeholder="Enter one ingredient to search DNM's recipes" id="ingredients-input">
-            </div>
-            <div class="input-box" onclick="sendFocus('minutes-input')">
-              <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input" >
-            </div>
-            <button class="submit-button" onclick="filterText()">Get Your Recipe</button>
-            
-            <!-- TODO: REST OF INPUTS -->
-            <!-- <div class="inputs-row">
+  <div class="full-body-container">
+    <div class="top-text">
+      <div class="logo">
+        <div class="logo-text">
+          <h3>What will you cook in</h3>
+          <h1 id="google-s">DNM's KITCHEN</h1>
+        </div>
+        <img id="logo-img" src="../static/images/dnms-kitchen-logo.svg" />
+      </div>
+      <div class="input-box" onclick="sendFocus('ingredients-input')">
+        <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
+        <input placeholder="Enter one ingredient to search DNM's recipes" id="ingredients-input">
+      </div>
+      <div class="input-box" onclick="sendFocus('minutes-input')">
+        <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input">
+      </div>
+      <button class="submit-button" onclick="filterText()">Get Your Recipe</button>
+
+      <!-- TODO: REST OF INPUTS -->
+      <!-- <div class="inputs-row">
                 <fieldset>
                     <legend>Dietary Restrictions:</legend>
                   
@@ -79,63 +81,67 @@
                   </fieldset>
                   
             </div> -->
-        </div>
-        <div id="answer-box">
-
-        </div>
     </div>
+    <div id="answer-box">
 
-    <script>
-        function answerBoxTemplate(name,ingredients,minutes,steps,avgrating){
-            return `<div class=''>
+    </div>
+  </div>
+
+  <script>
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim) {
+      return `<div class=''>
                 <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>Ingredients: ${ingredients}</p>
                 <p class='episode-desc'>Time to make: ${minutes} minutes</p>
                 <p class='episode-desc'>Steps: ${steps}</p>
                 <p class='episode-desc'>Our Rating: ${avgrating}</p>
+                <p class='episode-desc'>Ingredient Similarity: ${jaccsim}</p>
                 <hr>
             </div>`
-        }
+    }
 
-        function noResultsTemplate() {
-          return `<div class='no-results-box'>
+    function noResultsTemplate() {
+      return `<div class='no-results-box'>
               <p class='no-results'>DNM does not have a recipe for you. Try a new search.</p>
             </div>`
-        }
+    }
 
-        function sendFocus(inputId){
-            document.getElementById('inputId').focus()
-        }
+    function sendFocus(inputId) {
+      document.getElementById('inputId').focus()
+    }
 
-        function filterText(){
-            document.getElementById("answer-box").innerHTML = ""
-            console.log(document.getElementById("ingredients-input").value)
-            console.log(document.getElementById("minutes-input").value)
+    function filterText() {
+      document.getElementById("answer-box").innerHTML = ""
+      console.log(document.getElementById("ingredients-input").value)
+      console.log(document.getElementById("minutes-input").value)
 
-            fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value }).toString())
-            .then((response) => {
-              if (response.ok) {
-              response.json()
+      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value }).toString())
+        .then((response) => {
+          if (response.ok) {
+            response.json()
               .then((data) => {
                 console.log(data)
                 if (data.length != 0) {
                   data.forEach(row => {
-                      let tempDiv = document.createElement("div")
-                      tempDiv.innerHTML = answerBoxTemplate(row.nam,row.ingredients,row.minutes,row.steps, row.avgrating)
-                      document.getElementById("answer-box").appendChild(tempDiv)
+                    let tempDiv = document.createElement("div")
+                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.similarity_score)
+                    document.getElementById("answer-box").appendChild(tempDiv)
                   })
                 } else {
                   let tempDiv = document.createElement("div")
                   tempDiv.innerHTML = noResultsTemplate()
                   document.getElementById("answer-box").appendChild(tempDiv)
-                }}
-            );
-            } else {
-              let tempDiv = document.createElement("div")
-                tempDiv.innerHTML = noResultsTemplate()
-                document.getElementById("answer-box").appendChild(tempDiv)
-            }})} 
- 
-            
-    </script>
+                }
+              }
+              );
+          } else {
+            let tempDiv = document.createElement("div")
+            tempDiv.innerHTML = noResultsTemplate()
+            document.getElementById("answer-box").appendChild(tempDiv)
+          }
+        })
+    }
+
+
+  </script>
 </body>
