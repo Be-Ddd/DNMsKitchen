@@ -31,20 +31,37 @@ def json_search(ingr, mins):
     
     #extract list of ingredients from user query
     ingr_list = preprocessing.tokenize_ingr_list(ingr)
+    print("INGREDIENT LIST")
     print(ingr_list)
 
+    #Create a dictionary that maps recipe id to jaccard sim score 
+    #Calculate jacc sim score between recipe ing list and query ing list for recipes that contain 1 or more query ingredients. 
     scores = {}
     for index, row in df.iterrows():
         if any(ingredient in row['ingredients'] for ingredient in ingr_list):
             sim_score = preprocessing.jaccard_similarity(ingr_list, row['ingredients'])
             scores[row["id"]] = sim_score
+    
+    #sort dictionary by sim scores in descending order
     scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
+    print("SCORES")
     print(scores)
 
+    #Create a pandas df that contains matched recipes. Filter out matched recipes that have cooking time > user inputs max cooking time.  
     matches = df[(df['id'].isin(scores.keys())) & (df['minutes'] <= int(mins))]
+    print("MATCHES")
+    print(matches)
+    
+    #Map similarity scores from scores dict to corresponding recipe id in matches df
     matches['similarity_score'] = matches['id'].map(scores)
+    print("MATCHES ADDING SIM SCORE")
+    print(matches)
+    
+    #Sort recipes in matches df by similarity score and convert it to JSON format. 
     matches = matches.sort_values(by='similarity_score', ascending=False)
     matches_json = matches.to_json(orient='records')
+    print("MATCHES AS JSON")
+    print(matches_json)
     return matches_json
 
     # #if no ingredients in query, then possible outputted recipes = whole recipe set, otherwise filter down recipes based on ingredients in query
