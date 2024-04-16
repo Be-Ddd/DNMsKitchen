@@ -43,14 +43,21 @@ td_matrix_np = normalize(td_matrix_np)
 docs_compressed_normed = normalize(docs_compressed)
 
 # TEST USER INPUT 
-query = "easy blueberry breakfast"
+query = "oven"
 query_tfidf = vectorizer.transform([query]).toarray()
 query_vec = normalize(np.dot(query_tfidf, words_compressed)).squeeze()
 
-def svd_search(query_vec_in, k = 5):
-    sims = docs_compressed_normed.dot(query_vec_in)
-    asort = np.argsort(-sims)[:k+1]
-    return [(i, recipes[i][0],sims[i]) for i in asort[1:]]
+def svd_search(query_vec_in):
+  sims = docs_compressed_normed.dot(query_vec_in)
+  asort = np.argsort(-sims)
+  results_dict = {}
+  for i in asort[1:]:
+    results_dict[i] = sims[i]
+  return results_dict
+  #return [(i, recipes[i][0],sims[i]) for i in asort[1:]]
 
-for i, proj, sim in svd_search(query_vec):
-    print("({}, {}, {:.4f}".format(i, proj, sim))
+print(svd_search(query_vec))
+
+#for i, sim in svd_search(query_vec):
+#    print("({}, {:.4f}".format(i, sim))
+

@@ -24,6 +24,9 @@
       <div class="input-box" onclick="sendFocus('minutes-input')">
         <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input">
       </div>
+      <div class="input-box" onclick="sendFocus('svd-input')">
+        <input placeholder="Required: Any appliances or other requests?" id="svd-input">
+      </div>
       <button class="submit-button" onclick="filterText()">Get Your Recipe</button>
 
       <!-- TODO: REST OF INPUTS -->
@@ -88,7 +91,7 @@
   </div>
 
   <script>
-    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim) {
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim) {
       return `<div class=''>
                 <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>Ingredients: ${ingredients}</p>
@@ -96,6 +99,7 @@
                 <p class='episode-desc'>Steps: ${steps}</p>
                 <p class='episode-desc'>Our Rating: ${avgrating}</p>
                 <p class='episode-desc'>Ingredient Similarity: ${jaccsim}</p>
+                <p class='episode-desc'>Other Details Similarity: ${svdsim}</p>
                 <hr>
             </div>`
     }
@@ -114,8 +118,9 @@
       document.getElementById("answer-box").innerHTML = ""
       console.log(document.getElementById("ingredients-input").value)
       console.log(document.getElementById("minutes-input").value)
+      console.log(document.getElementById("svd-input").value)
 
-      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value }).toString())
+      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value, svd: document.getElementById("svd-input").value }).toString())
         .then((response) => {
           if (response.ok) {
             response.json()
@@ -124,7 +129,7 @@
                 if (data.length != 0) {
                   data.forEach(row => {
                     let tempDiv = document.createElement("div")
-                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.similarity_score)
+                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim)
                     document.getElementById("answer-box").appendChild(tempDiv)
                   })
                 } else {
