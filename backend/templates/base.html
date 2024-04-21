@@ -1,15 +1,17 @@
 <!doctype html>
-<title>DNM's Kitchen</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
-  rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Girassol&display=swap" rel="stylesheet">
-
+<head>
+  <title>DNM's Kitchen</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Girassol&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
 <body>
   <div class="full-body-container">
-    <div class="top-text">
+    <div class="mt-5 top-text">
       <div class="logo">
         <div class="logo-text">
           <h3>What will you cook in</h3>
@@ -17,76 +19,110 @@
         </div>
         <img id="logo-img" src="../static/images/dnms-kitchen-logo.svg" />
       </div>
-      <div class="input-box" onclick="sendFocus('ingredients-input')">
+    </div>
+
+    <form class="mt-5">
+      <div class="">
+
+      </div>
+      <div class="mb-4 w-75 input-box" onclick="sendFocus('ingredients-input')">
         <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
         <input placeholder="Enter comma-separated ingredients to search DNM's recipes" id="ingredients-input">
       </div>
-      <div class="input-box" onclick="sendFocus('minutes-input')">
-        <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input">
+      <div class="sub-inputs w-75">
+        <div class="mb-4" onclick="sendFocus('minutes-input')">
+          <label for="minutes-input" class="form-label">Max cooking time, mins (Required)</label>
+          <input type="" class="form-control w-25" id="minutes-input" placeholder="Ex: 30">
+        </div>
+        <!-- <div class="mb-4 w-50 input-box" onclick="sendFocus('minutes-input')">
+          <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input">
+        </div> -->
+        <div class="dropdown mb-4"> 
+          <label for="appliances-input" class="form-label">Appliances Needed (Required)</label>
+          <button class="form-control w-75 btn btn-success dropdown-toggle"
+            type="button" 
+            id="appliancesDropdown"
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"> 
+              Select 
+          </button> 
+          <ul class="dropdown-menu" 
+            aria-labelledby="appliancesDropdown"> 
+            <li> 
+              <label> 
+                <input type="checkbox" 
+                        value="oven"> 
+                    Oven 
+                </label> 
+            </li> 
+            <li> 
+              <label> 
+                <input type="checkbox" 
+                        value="microwave"> 
+                    Microwave
+                </label> 
+            </li> 
+            <li> 
+              <label> 
+                <input type="checkbox" 
+                        value="pan"> 
+                    Pan 
+                </label> 
+            </li> 
+          </ul> 
+      </div> 
+      <div class="dropdown mb-4"> 
+        <label for="diet-input" class="form-label">Dietary Restrictions</label>
+        <button class="form-control w-75 btn btn-success dropdown-toggle"
+          type="button" 
+          id="appliancesDropdown"
+          data-bs-toggle="dropdown" 
+          aria-expanded="false"> 
+            Select 
+        </button> 
+        <ul class="dropdown-menu" 
+          aria-labelledby="appliancesDropdown"> 
+          <li> 
+            <label> 
+              <input type="checkbox" 
+                      value="vegetarian"> 
+                  Vegetarian 
+              </label> 
+          </li> 
+          <li> 
+            <label> 
+              <input type="checkbox" 
+                      value="vegan"> 
+                  Vegan
+              </label> 
+          </li> 
+          <li> 
+            <label> 
+              <input type="checkbox" 
+                      value="pescatarian"> 
+                  Pescatarian 
+              </label> 
+          </li> 
+        </ul> 
+    </div> 
+        <div class="mb-4 w-75" onclick="sendFocus('calorie-input')">
+          <!-- <label for="calorie-input" class="form-label">Calorie Target (cals)</label>
+          <input type="" class="form-control" id="calorie-input" placeholder="Ex: 300"> -->
+          <label for="calorie-input" class="form-label">Calorie Target (cals)</label>
+          <input type="range" class="form-range" id="calorie-input" min="0" max="1500" step="50">
+        </div>
+        <div class="mb-4 w-75" onclick="sendFocus('avoid-input')">
+          <label for="avoid-input" class="form-label">Ingredients to Avoid</label>
+          <input type="" class="form-control" id="avoid-input" placeholder="Ex: peanuts, soy, etc.">
+        </div>
       </div>
-      <div class="input-box" onclick="sendFocus('svd-input')">
-        <input placeholder="Required: Any appliances or other requests?" id="svd-input">
-      </div>
+      
+
       <button class="submit-button" onclick="filterText()">Get Your Recipe</button>
-
-      <!-- TODO: REST OF INPUTS -->
-      <!-- <div class="inputs-row">
-                <fieldset>
-                    <legend>Dietary Restrictions:</legend>
-                  
-                    <div>
-                      <input type="checkbox" id="scales" name="scales" checked />
-                      <label for="scales">Vegetarian</label>
-                    </div>
-                  
-                    <div>
-                      <input type="checkbox" id="horns" name="horns" />
-                      <label for="horns">Vegan</label>
-                    </div>
-                  </fieldset>
-                  <fieldset>
-                    <legend>Available Appliances:</legend>
-                  
-                    <div>
-                      <input type="checkbox" id="scales" name="scales" checked />
-                      <label for="scales">Microwave</label>
-                    </div>
-                  
-                    <div>
-                      <input type="checkbox" id="horns" name="horns" />
-                      <label for="horns">Oven</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="horns" name="horns" />
-                        <label for="horns">Stove</label>
-                      </div>
-                  </fieldset>
-                  <fieldset>
-                    <legend>Max Cooking Time:</legend>
-                  
-                    <div>
-                      <input type="checkbox" id="scales" name="scales" checked />
-                      <label for="scales">5 min</label>
-                    </div>
-                  
-                    <div>
-                      <input type="checkbox" id="horns" name="horns" />
-                      <label for="horns">10 min</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="horns" name="horns" />
-                    <label for="horns">20 min</label>
-                    </div>
-                    <div>
-                    <input type="checkbox" id="horns" name="horns" />
-                    <label for="horns">1 hour</label>
-                    </div>
-                  </fieldset>
-                  
-            </div> -->
-    </div>
+      </div>
+    </form>
+      
     <div id="answer-box">
-
     </div>
   </div>
 
@@ -113,6 +149,30 @@
     function sendFocus(inputId) {
       document.getElementById('inputId').focus()
     }
+
+    const chBoxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]'); 
+    const appliancesDropdown = document.getElementById('appliancesDropdown'); 
+    let mySelectedListItems = []; 
+
+    function handleCB() { 
+        mySelectedListItems = []; 
+        let mySelectedListItemsText = ''; 
+
+        chBoxes.forEach((checkbox) => { 
+            if (checkbox.checked) { 
+                mySelectedListItems.push(checkbox.value); 
+                mySelectedListItemsText += checkbox.value + ', '; 
+            } 
+        }); 
+
+        appliancesDropdown.innerText = 
+            mySelectedListItems.length > 0 
+                ? mySelectedListItemsText.slice(0, -2) : 'Select'; 
+    } 
+
+    chBoxes.forEach((checkbox) => { 
+        checkbox.addEventListener('change', handleCB('appliancesDropdown')); 
+    }); 
 
     function filterText() {
       document.getElementById("answer-box").innerHTML = ""
@@ -146,7 +206,6 @@
           }
         })
     }
-
-
   </script>
-</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script></body>
