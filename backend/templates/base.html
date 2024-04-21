@@ -1,4 +1,5 @@
 <!doctype html>
+
 <head>
   <title>DNM's Kitchen</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -7,8 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit&family=Montserrat&family=Open+Sans:wght@500&display=swap"
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Girassol&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
+
 <body>
   <div class="full-body-container">
     <div class="mt-5 top-text">
@@ -24,7 +27,8 @@
     <form class="mt-5">
       <div class="mb-4 w-75" onclick="sendFocus('ingredients-input')">
         <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
-        <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes" id="ingredients-input">
+        <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes"
+          id="ingredients-input">
       </div>
       <div class="sub-inputs w-75">
         <div class="mb-4" onclick="sendFocus('minutes-input')">
@@ -35,74 +39,60 @@
           <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input">
         </div> -->
 
-        <div class="dropdown mb-4"> 
+        <div class="dropdown mb-4">
           <label for="appliances-input" class="form-label">Available Appliances (Required)</label>
-          <button class="btn form-control dropdown-toggle w-75"
-                  type="button" 
-                  id="applianceDropdown"
-                  data-bs-toggle="dropdown" 
-                  aria-expanded="false"> 
-              Select 
-          </button> 
-          <ul id="appliance-menu" class="appliance-menu dropdown-menu" 
-              aria-labelledby="applianceDropdown"> 
-              <li> 
-                    <label> 
-                      <input type="checkbox" 
-                             value="Oven"> 
-                      Oven 
-                  </label> 
-              </li> 
-              <li> 
-                    <label> 
-                      <input type="checkbox" 
-                             value="Microwave"> 
-                      Microwave
-                  </label> 
-              </li> 
-              <li> 
-                    <label> 
-                      <input type="checkbox" 
-                             value="Pan"> 
-                      Pan 
-                  </label> 
-              </li> 
-          </ul> 
-      </div> 
-      <div class="dropdown mb-4"> 
-        <label for="diet-input" class="form-label">Dietary Restrictions</label>
-        <button class="btn form-control dropdown-toggle w-75"
-                type="button" 
-                id="dietDropdown"
-                data-bs-toggle="dropdown" 
-                aria-expanded="false"> 
-            Select 
-        </button> 
-        <ul id="diet-menu" class="dropdown-menu diet-menu" 
-            aria-labelledby="dietDropdown"> 
-            <li> 
-                  <label> 
-                    <input type="checkbox" 
-                           value="Vegetarian"> 
-                    Vegetarian 
-                </label> 
-            </li> 
-            <li> 
-                  <label> 
-                    <input type="checkbox" 
-                           value="Vegan"> 
-                    Vegan
-                </label> 
-            </li> 
-            <li> 
-                  <label> 
-                    <input type="checkbox" 
-                           value="Pescatarian"> 
-                    Pescatarian 
-                </label> 
-            </li> 
-        </ul> 
-    </div> 
+          <button class="btn form-control dropdown-toggle w-75" type="button" id="applianceDropdown"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Select
+          </button>
+          <ul id="appliance-menu" class="appliance-menu dropdown-menu" aria-labelledby="applianceDropdown">
+            <li>
+              <label>
+                <input type="checkbox" value="Oven">
+                Oven
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" value="Microwave">
+                Microwave
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" value="Pan">
+                Pan
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="dropdown mb-4">
+          <label for="diet-input" class="form-label">Dietary Restrictions</label>
+          <button class="btn form-control dropdown-toggle w-75" type="button" id="dietDropdown"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Select
+          </button>
+          <ul id="diet-menu" class="dropdown-menu diet-menu" aria-labelledby="dietDropdown">
+            <li>
+              <label>
+                <input type="checkbox" value="Vegetarian">
+                Vegetarian
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" value="Vegan">
+                Vegan
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" value="Pescatarian">
+                Pescatarian
+              </label>
+            </li>
+          </ul>
+        </div>
 
         <!-- <div class="mb-4 w-75" onclick="sendFocus('calorie-input')">
           <label for="calorie-input" class="form-label">Calorie Target (cals)</label>
@@ -113,14 +103,14 @@
           <input type="" class="form-control" id="avoid-input" placeholder="Ex: peanuts, soy, etc.">
         </div>
       </div>
-      
 
-      <button class="submit-button" onclick="filterText()">Get Your Recipe</button>
-      </div>
-    </form>
-      
-    <div id="answer-box">
-    </div>
+
+      <button class="submit-button" onclick="filterText(event)">Get Your Recipe</button>
+  </div>
+  </form>
+
+  <div id="answer-box">
+  </div>
   </div>
 
   <script>
@@ -144,83 +134,102 @@
     }
 
     function sendFocus(inputId) {
-      document.getElementById('inputId').focus()
+      document.getElementById(inputId).focus()
     }
 
     let svdInput = ""
 
-    const applianceDropdownBtn = document.getElementById('applianceDropdown'); 
-    const applianceDropdownMenu = document.querySelector('.appliance-menu'); 
-    let selectedAppliances = []; 
+    // let svdInput = ""
 
-    function handleApplianceSelection(event, field) { 
-      const checkbox = event.target; 
-      if (checkbox.checked) { 
-          selectedAppliances.push(checkbox.value); 
-      } else { 
-          selectedAppliances = selectedAppliances.filter((item) => item !== checkbox.value); 
-      } 
+    const applianceDropdownBtn = document.getElementById('applianceDropdown');
+    const applianceDropdownMenu = document.querySelector('.appliance-menu');
+    let selectedAppliances = [];
 
-      applianceDropdownBtn.innerText = selectedAppliances.length > 0 ? selectedAppliances.join(', ') : 'Select Items'; 
+    function handleApplianceSelection(event, field) {
+      const checkbox = event.target;
+      if (checkbox.checked) {
+        selectedAppliances.push(checkbox.value);
+      } else {
+        selectedAppliances = selectedAppliances.filter((item) => item !== checkbox.value);
+      }
+
+      applianceDropdownBtn.innerText = selectedAppliances.length > 0 ? selectedAppliances.join(', ') : 'Select Items';
       svdInput = selectedAppliances.join(', ') + " " + selectedDiets.join(', ')
       console.log(svdInput)
-    } 
+    }
 
-    applianceDropdownMenu.addEventListener('change', function() {handleApplianceSelection(event,'Appliances')});
+    applianceDropdownMenu.addEventListener('change', function () { handleApplianceSelection(event, 'Appliances') });
 
-    const dietDropdownBtn = document.getElementById('dietDropdown'); 
-    const dietDropdownMenu = document.querySelector('.diet-menu'); 
-    let selectedDiets= []; 
+    const dietDropdownBtn = document.getElementById('dietDropdown');
+    const dietDropdownMenu = document.querySelector('.diet-menu');
+    let selectedDiets = [];
 
-    function handleDietSelection(event, field) { 
-      const checkbox = event.target; 
-      if (checkbox.checked) { 
-          selectedDiets.push(checkbox.value); 
-      } else { 
-          selectedDiets = selectedDiets.filter((item) => item !== checkbox.value); 
-      } 
+    function handleDietSelection(event, field) {
+      const checkbox = event.target;
+      if (checkbox.checked) {
+        selectedDiets.push(checkbox.value);
+      } else {
+        selectedDiets = selectedDiets.filter((item) => item !== checkbox.value);
+      }
 
-      dietDropdownBtn.innerText = selectedDiets.length > 0 ? selectedDiets.join(', ') : 'Select Items'; 
+      dietDropdownBtn.innerText = selectedDiets.length > 0 ? selectedDiets.join(', ') : 'Select Items';
       svdInput = selectedDiets.join(', ') + " " + selectedAppliances.join(', ')
+      // console.log(svdInput)
+      // console.log(document.getElementById("minutes-input").value)
+      // console.log(document.getElementById("ingredients-input").value)
+      // console.log(document.getElementById("avoid-input").value)
+    }
+
+    dietDropdownMenu.addEventListener('change', function () { handleDietSelection(event, 'Diets') });
+    function filterText(event) {
+      event.preventDefault(); // Prevent the form from submitting through the browser
+      document.getElementById("answer-box").innerHTML = "";
       console.log(svdInput)
       console.log(document.getElementById("minutes-input").value)
       console.log(document.getElementById("ingredients-input").value)
-    } 
+      console.log(document.getElementById("avoid-input").value)
 
-    dietDropdownMenu.addEventListener('change', function() {handleDietSelection(event,'Diets')});
-
-    function filterText() {
-      document.getElementById("answer-box").innerHTML = ""
-      console.log(document.getElementById("ingredients-input").value)
-      console.log(document.getElementById("minutes-input").value)
-      console.log(svdInput)
-
-      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value, svd: svdInput }).toString())
-        .then((response) => {
+      fetch("/recipes?" + new URLSearchParams({
+        ingredient: document.getElementById("ingredients-input").value,
+        minutes: document.getElementById("minutes-input").value,
+        svd: svdInput,
+        avoid: document.getElementById("avoid-input").value
+      }).toString())
+        .then(response => {
           if (response.ok) {
-            response.json()
-              .then((data) => {
-                console.log(data)
-                if (data.length != 0) {
-                  data.forEach(row => {
-                    let tempDiv = document.createElement("div")
-                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim)
-                    document.getElementById("answer-box").appendChild(tempDiv)
-                  })
-                } else {
-                  let tempDiv = document.createElement("div")
-                  tempDiv.innerHTML = noResultsTemplate()
-                  document.getElementById("answer-box").appendChild(tempDiv)
-                }
-              }
-              );
+            return response.json();
           } else {
-            let tempDiv = document.createElement("div")
-            tempDiv.innerHTML = noResultsTemplate()
-            document.getElementById("answer-box").appendChild(tempDiv)
+            throw new Error('Failed to fetch data from server');
           }
         })
+        .then(data => {
+          console.log(data);
+          if (data.length != 0) {
+            console.log("type", typeof (data))
+            data.forEach(row => {
+              let tempDiv = document.createElement("div");
+              tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim);
+              document.getElementById("answer-box").appendChild(tempDiv);
+            });
+          } else {
+            let tempDiv = document.createElement("div");
+            tempDiv.innerHTML = noResultsTemplate();
+            document.getElementById("answer-box").appendChild(tempDiv);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          let tempDiv = document.createElement("div");
+          tempDiv.innerHTML = noResultsTemplate();
+          document.getElementById("answer-box").appendChild(tempDiv);
+        });
     }
+
   </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script></body>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
+</body>

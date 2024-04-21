@@ -20,3 +20,5 @@ dist/
 build/
 *.egg-info/
 helpers/*
+
+name_of_virtual_env
