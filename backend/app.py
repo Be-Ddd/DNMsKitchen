@@ -92,7 +92,7 @@ def home():
 def recipes_search():
     ingr = request.args.get("ingredient")
     mins = request.args.get("minutes")
-    svd = request.args.get("svd")
+    svd = request.args.get("svd", default=" ")
     return json_search(ingr, mins, svd)
 
 if 'DB_NAME' not in os.environ:

@@ -22,12 +22,9 @@
     </div>
 
     <form class="mt-5">
-      <div class="">
-
-      </div>
-      <div class="mb-4 w-75 input-box" onclick="sendFocus('ingredients-input')">
+      <div class="mb-4 w-75" onclick="sendFocus('ingredients-input')">
         <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
-        <input placeholder="Enter comma-separated ingredients to search DNM's recipes" id="ingredients-input">
+        <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes" id="ingredients-input">
       </div>
       <div class="sub-inputs w-75">
         <div class="mb-4" onclick="sendFocus('minutes-input')">
@@ -37,80 +34,80 @@
         <!-- <div class="mb-4 w-50 input-box" onclick="sendFocus('minutes-input')">
           <input placeholder="Required: Maximum cooking time (mins)" id="minutes-input">
         </div> -->
+
         <div class="dropdown mb-4"> 
-          <label for="appliances-input" class="form-label">Appliances Needed (Required)</label>
-          <button class="form-control w-75 btn btn-success dropdown-toggle"
-            type="button" 
-            id="appliancesDropdown"
-            data-bs-toggle="dropdown" 
-            aria-expanded="false"> 
+          <label for="appliances-input" class="form-label">Available Appliances (Required)</label>
+          <button class="btn form-control dropdown-toggle w-75"
+                  type="button" 
+                  id="applianceDropdown"
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false"> 
               Select 
           </button> 
-          <ul class="dropdown-menu" 
-            aria-labelledby="appliancesDropdown"> 
-            <li> 
-              <label> 
-                <input type="checkbox" 
-                        value="oven"> 
-                    Oven 
-                </label> 
-            </li> 
-            <li> 
-              <label> 
-                <input type="checkbox" 
-                        value="microwave"> 
-                    Microwave
-                </label> 
-            </li> 
-            <li> 
-              <label> 
-                <input type="checkbox" 
-                        value="pan"> 
-                    Pan 
-                </label> 
-            </li> 
+          <ul id="appliance-menu" class="appliance-menu dropdown-menu" 
+              aria-labelledby="applianceDropdown"> 
+              <li> 
+                    <label> 
+                      <input type="checkbox" 
+                             value="Oven"> 
+                      Oven 
+                  </label> 
+              </li> 
+              <li> 
+                    <label> 
+                      <input type="checkbox" 
+                             value="Microwave"> 
+                      Microwave
+                  </label> 
+              </li> 
+              <li> 
+                    <label> 
+                      <input type="checkbox" 
+                             value="Pan"> 
+                      Pan 
+                  </label> 
+              </li> 
           </ul> 
       </div> 
       <div class="dropdown mb-4"> 
         <label for="diet-input" class="form-label">Dietary Restrictions</label>
-        <button class="form-control w-75 btn btn-success dropdown-toggle"
-          type="button" 
-          id="appliancesDropdown"
-          data-bs-toggle="dropdown" 
-          aria-expanded="false"> 
+        <button class="btn form-control dropdown-toggle w-75"
+                type="button" 
+                id="dietDropdown"
+                data-bs-toggle="dropdown" 
+                aria-expanded="false"> 
             Select 
         </button> 
-        <ul class="dropdown-menu" 
-          aria-labelledby="appliancesDropdown"> 
-          <li> 
-            <label> 
-              <input type="checkbox" 
-                      value="vegetarian"> 
-                  Vegetarian 
-              </label> 
-          </li> 
-          <li> 
-            <label> 
-              <input type="checkbox" 
-                      value="vegan"> 
-                  Vegan
-              </label> 
-          </li> 
-          <li> 
-            <label> 
-              <input type="checkbox" 
-                      value="pescatarian"> 
-                  Pescatarian 
-              </label> 
-          </li> 
+        <ul id="diet-menu" class="dropdown-menu diet-menu" 
+            aria-labelledby="dietDropdown"> 
+            <li> 
+                  <label> 
+                    <input type="checkbox" 
+                           value="Vegetarian"> 
+                    Vegetarian 
+                </label> 
+            </li> 
+            <li> 
+                  <label> 
+                    <input type="checkbox" 
+                           value="Vegan"> 
+                    Vegan
+                </label> 
+            </li> 
+            <li> 
+                  <label> 
+                    <input type="checkbox" 
+                           value="Pescatarian"> 
+                    Pescatarian 
+                </label> 
+            </li> 
         </ul> 
     </div> 
-        <div class="mb-4 w-75" onclick="sendFocus('calorie-input')">
-          <!-- <label for="calorie-input" class="form-label">Calorie Target (cals)</label>
-          <input type="" class="form-control" id="calorie-input" placeholder="Ex: 300"> -->
+
+        <!-- <div class="mb-4 w-75" onclick="sendFocus('calorie-input')">
           <label for="calorie-input" class="form-label">Calorie Target (cals)</label>
           <input type="range" class="form-range" id="calorie-input" min="0" max="1500" step="50">
-        </div>
+        </div> -->
         <div class="mb-4 w-75" onclick="sendFocus('avoid-input')">
           <label for="avoid-input" class="form-label">Ingredients to Avoid</label>
           <input type="" class="form-control" id="avoid-input" placeholder="Ex: peanuts, soy, etc.">
@@ -150,37 +147,55 @@
       document.getElementById('inputId').focus()
     }
 
-    const chBoxes = document.querySelectorAll('.dropdown-menu input[type="checkbox"]'); 
-    const appliancesDropdown = document.getElementById('appliancesDropdown'); 
-    let mySelectedListItems = []; 
+    let svdInput = ""
 
-    function handleCB() { 
-        mySelectedListItems = []; 
-        let mySelectedListItemsText = ''; 
+    const applianceDropdownBtn = document.getElementById('applianceDropdown'); 
+    const applianceDropdownMenu = document.querySelector('.appliance-menu'); 
+    let selectedAppliances = []; 
 
-        chBoxes.forEach((checkbox) => { 
-            if (checkbox.checked) { 
-                mySelectedListItems.push(checkbox.value); 
-                mySelectedListItemsText += checkbox.value + ', '; 
-            } 
-        }); 
+    function handleApplianceSelection(event, field) { 
+      const checkbox = event.target; 
+      if (checkbox.checked) { 
+          selectedAppliances.push(checkbox.value); 
+      } else { 
+          selectedAppliances = selectedAppliances.filter((item) => item !== checkbox.value); 
+      } 
 
-        appliancesDropdown.innerText = 
-            mySelectedListItems.length > 0 
-                ? mySelectedListItemsText.slice(0, -2) : 'Select'; 
+      applianceDropdownBtn.innerText = selectedAppliances.length > 0 ? selectedAppliances.join(', ') : 'Select Items'; 
+      svdInput = selectedAppliances.join(', ') + " " + selectedDiets.join(', ')
+      console.log(svdInput)
     } 
 
-    chBoxes.forEach((checkbox) => { 
-        checkbox.addEventListener('change', handleCB('appliancesDropdown')); 
-    }); 
+    applianceDropdownMenu.addEventListener('change', function() {handleApplianceSelection(event,'Appliances')});
+
+    const dietDropdownBtn = document.getElementById('dietDropdown'); 
+    const dietDropdownMenu = document.querySelector('.diet-menu'); 
+    let selectedDiets= []; 
+
+    function handleDietSelection(event, field) { 
+      const checkbox = event.target; 
+      if (checkbox.checked) { 
+          selectedDiets.push(checkbox.value); 
+      } else { 
+          selectedDiets = selectedDiets.filter((item) => item !== checkbox.value); 
+      } 
+
+      dietDropdownBtn.innerText = selectedDiets.length > 0 ? selectedDiets.join(', ') : 'Select Items'; 
+      svdInput = selectedDiets.join(', ') + " " + selectedAppliances.join(', ')
+      console.log(svdInput)
+      console.log(document.getElementById("minutes-input").value)
+      console.log(document.getElementById("ingredients-input").value)
+    } 
+
+    dietDropdownMenu.addEventListener('change', function() {handleDietSelection(event,'Diets')});
 
     function filterText() {
       document.getElementById("answer-box").innerHTML = ""
       console.log(document.getElementById("ingredients-input").value)
       console.log(document.getElementById("minutes-input").value)
-      console.log(document.getElementById("svd-input").value)
+      console.log(svdInput)
 
-      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value, svd: document.getElementById("svd-input").value }).toString())
+      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value, svd: svdInput }).toString())
         .then((response) => {
           if (response.ok) {
             response.json()
