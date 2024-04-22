@@ -33,11 +33,12 @@ app = Flask(__name__)
 CORS(app)
 
 # ingr is the ingredients input, mins is the minutes input, svd is the freeforms
-def json_search(ingr, mins, svd):
+def json_search(ingr, mins, svd, avoid, calorie):
     matches = []
     
     #extract list of ingredients from user query
     ingr_list = preprocessing.tokenize_ingr_list(ingr)
+    avoid_list = preprocessing.tokenize_ingr_list(avoid)
 
     #Create a dictionary that maps recipe id to jaccard sim score 
     #Calculate jacc sim score between recipe ing list and query ing list for recipes that contain 1 or more query ingredients. 
@@ -45,7 +46,8 @@ def json_search(ingr, mins, svd):
     for index, row in df.iterrows():
         if any(ingredient in row['ingredients'] for ingredient in ingr_list):
             sim_score = preprocessing.jaccard_similarity(ingr_list, row['ingredients'])
-            scores[row["id"]] = sim_score
+            if not any(ingredient in avoid_list for ingredient in row['ingredients']):
+                scores[row["id"]] = sim_score
     
     #sort dictionary by sim scores in descending order
     scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
@@ -55,7 +57,7 @@ def json_search(ingr, mins, svd):
     #Create a pandas df that contains matched recipes. Filter out matched recipes that have cooking time > user inputs max cooking time.  
     matches = df[(df['id'].isin(scores.keys())) & (df['minutes'] <= int(mins))]
     print("MATCHES")
-    print(matches)
+    print(matches) 
     
     #Map similarity scores from scores dict to corresponding recipe id in matches df
     matches['jacc_sim'] = matches['id'].map(scores)
@@ -92,8 +94,11 @@ def home():
 def recipes_search():
     ingr = request.args.get("ingredient")
     mins = request.args.get("minutes")
-    svd = request.args.get("svd")
-    return json_search(ingr, mins, svd)
+    svd = request.args.get("svd", default=" ")
+    avoid = request.args.get("avoid")
+    calorie = request.args.get("calorie", default="10000")
+    response = json_search(ingr, mins, svd, avoid, calorie)
+    return response
 
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)

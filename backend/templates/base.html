@@ -10,7 +10,7 @@
 
 <body>
   <div class="full-body-container">
-    <div class="top-text">
+    <div class="mt-5 top-text">
       <div class="logo">
         <div class="logo-text">
           <h3>What will you cook in</h3>
@@ -21,7 +21,8 @@
       <div class="mt-5 form">
       <div class="mt-2 mb-4 w-75" onclick="sendFocus('ingredients-input')">
         <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
-        <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes" id="ingredients-input">
+        <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes"
+          id="ingredients-input">
       </div>
       <div class="sub-inputs w-75">
         <p class="mt-2">Additional Filters</p>
@@ -250,36 +251,47 @@ const dietDropdownBtn = document.getElementById('dietDropdown');
 
       svdInput = selectedDiets.join(', ') + " " + selectedAppliances.join(', ') + " " + document.getElementById("calories-input").value + "-calories avoid-" + document.getElementById("avoid-input").value
 
-      fetch("/recipes?" + new URLSearchParams({ ingredient: document.getElementById("ingredients-input").value, minutes: document.getElementById("minutes-input").value, svd: svdInput }).toString())
-        .then((response) => {
+      fetch("/recipes?" + new URLSearchParams({
+        ingredient: document.getElementById("ingredients-input").value,
+        minutes: document.getElementById("minutes-input").value,
+        svd: svdInput,
+        avoid: document.getElementById("avoid-input").value
+      }).toString())
+        .then(response => {
           if (response.ok) {
-            response.json()
-              .then((data) => {
-                console.log(data)
-                if (data.length != 0) {
-                  data.forEach(row => {
-                    let tempDiv = document.createElement("div")
-                    tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim)
-                    document.getElementById("answer-box").appendChild(tempDiv)
-                  })
-                } else {
-                  let tempDiv = document.createElement("div")
-                  tempDiv.innerHTML = noResultsTemplate()
-                  document.getElementById("answer-box").appendChild(tempDiv)
-                }
-              }
-              );
+            return response.json();
           } else {
-            let tempDiv = document.createElement("div")
-            tempDiv.innerHTML = noResultsTemplate()
-            document.getElementById("answer-box").appendChild(tempDiv)
+            throw new Error('Failed to fetch data from server');
           }
         })
+        .then(data => {
+          console.log(data);
+          if (data.length != 0) {
+            console.log("type", typeof (data))
+            data.forEach(row => {
+              let tempDiv = document.createElement("div");
+              tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim);
+              document.getElementById("answer-box").appendChild(tempDiv);
+            });
+          } else {
+            let tempDiv = document.createElement("div");
+            tempDiv.innerHTML = noResultsTemplate();
+            document.getElementById("answer-box").appendChild(tempDiv);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          let tempDiv = document.createElement("div");
+          tempDiv.innerHTML = noResultsTemplate();
+          document.getElementById("answer-box").appendChild(tempDiv);
+        });
     }
 
-
   </script>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
 </body>
