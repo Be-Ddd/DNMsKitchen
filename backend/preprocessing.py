@@ -57,19 +57,6 @@ def create_df():
   #label each recipe as satisfying or not satisfying each dietary restriction
   helper_functions.label_recipe_for_all_dietary_restrictions(df, restriction_dict)
 
-  # print("LACTOSE INTOLERANT")
-  # print(type(df['lactose intolerant']))
-  # print(type(df))
-  # print(type(df['lactose intolerant'].loc[df.index[0]]))
-  # print(df['lactose intolerant'].loc[df.index[0]])
-  # # for index,row in df.iterrows(): 
-  # #   print(df.loc[row,'lactose intolerant'])
-  # # print("PESCETARIAN")
-  # print(df['pescetarian'])
-  # print("NEW DF")
-  # print(df)
-
-
   df.to_json('processed_data.json', orient='records')
   return df
 
