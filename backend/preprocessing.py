@@ -12,9 +12,9 @@ def create_df():
 
   # Merge recipes and interactions to extract data
   merged_data = pd.merge(raw_recipes, pp_recipes, on='id', how='inner')
-  recipes = merged_data[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description']]
+  recipes = merged_data[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'calorie_level']]
   recipes_review_merge = pd.merge(recipes, interactions, left_on='id',right_on='recipe_id', how='inner')
-  recipes_review = recipes_review_merge[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'rating','review']]
+  recipes_review = recipes_review_merge[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'rating','review', 'calorie_level']]
 
   # Compute average rating and combine reviews into a list of reviews
   # Drop duplicated rows
@@ -26,8 +26,7 @@ def create_df():
   df['ingredient_ids'] = df['ingredient_ids'].apply(ast.literal_eval)
   df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
   df['steps'] = df['steps'].apply(ast.literal_eval)
-
-  df.to_json(orient='records')
+  df.to_json('processed_data.json', orient='records')
   return df
 
 result = create_df()
@@ -43,7 +42,6 @@ def build_inv_idx(recipe_ing: List[dict]) -> dict:
     ingredient_ids = recipe_ing_dict["ingredients"]
     for ingredient_id in ingredient_ids:
       res[str(ingredient_id)].append(recipe_id)
-  print(dict(res))
   return dict(res)
 
 inv_idx = build_inv_idx(inv_idx_dict)
@@ -90,3 +88,9 @@ def jacc_dict_ing(ingr_list, input_set):
     print("score",jacc_score)
     jacc_scores_dict[recipe_id]= jacc_score
   return jacc_scores_dict
+
+def avoid_ingr(avoid_lst, recipe):
+  for ingr in recipe["ingredients"]:
+    if any(avoid_item in ingr for avoid_item in avoid_lst):
+      return False
+  return True

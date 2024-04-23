@@ -26,6 +26,7 @@ json_file_path = os.path.join(current_directory, 'processed_data.json')
 with open(json_file_path, 'r') as file:
     data = json.load(file)
     df = pd.DataFrame(data)
+    print("DFFFFFFF", df)
     # episodes_df = pd.DataFrame(data['episodes'])
     # reviews_df = pd.DataFrame(data['reviews'])
 
@@ -46,7 +47,7 @@ def json_search(ingr, mins, svd, avoid, calorie):
     for index, row in df.iterrows():
         if any(ingredient in row['ingredients'] for ingredient in ingr_list):
             sim_score = preprocessing.jaccard_similarity(ingr_list, row['ingredients'])
-            if not any(ingredient in avoid_list for ingredient in row['ingredients']):
+            if preprocessing.avoid_ingr(avoid_list, row):
                 scores[row["id"]] = sim_score
     
     #sort dictionary by sim scores in descending order
@@ -54,8 +55,15 @@ def json_search(ingr, mins, svd, avoid, calorie):
     print("SCORES")
     print(scores)
 
+    if (int(calorie) <= 100):
+        calorie_level = 0
+    elif (100 < int(calorie) <= 400):
+        calorie_level = 1
+    else: 
+        calorie_level = 2
+
     #Create a pandas df that contains matched recipes. Filter out matched recipes that have cooking time > user inputs max cooking time.  
-    matches = df[(df['id'].isin(scores.keys())) & (df['minutes'] <= int(mins))]
+    matches = df[(df['id'].isin(scores.keys())) & (df['minutes'] <= int(mins)) & (df['calorie_level'] <= int(calorie_level))]
     print("MATCHES")
     print(matches) 
     
@@ -77,7 +85,6 @@ def json_search(ingr, mins, svd, avoid, calorie):
     matches = matches.sort_values(by=['jacc_sim', 'svd_sim'], ascending=False)
     matches_json = matches.to_json(orient='records')
     print("MATCHES AS JSON")
-    print(matches_json)
     return matches_json
 
 
