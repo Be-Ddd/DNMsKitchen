@@ -120,8 +120,16 @@ def jacc_dict_ing(ingr_list, input_set):
     jacc_scores_dict[recipe_id]= jacc_score
   return jacc_scores_dict
 
+"""Returns true if the recipe ingredient list does not contain any ingredients in the avoid ingredient list. Return false otherwise."""
 def avoid_ingr(avoid_lst, recipe):
-  for ingr in recipe["ingredients"]:
-    if any(avoid_item in ingr for avoid_item in avoid_lst):
-      return False
-  return True
+  # for ingr in recipe["ingredients"]:
+  #   if any(avoid_item in ingr for avoid_item in avoid_lst):
+  #     return False
+  # return True
+  recipe_ing_set = set(recipe['ingredients']) 
+  avoid_set= set(avoid_lst)
+  if len(recipe_ing_set.intersection(avoid_set))==0:
+    return True     
+  else:
+    return False
+                    
