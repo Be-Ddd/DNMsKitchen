@@ -39,6 +39,10 @@ def json_search(ingr, mins, svd, avoid, calorie):
     
     #extract list of ingredients from user query
     ingr_list = preprocessing.tokenize_ingr_list(ingr)
+    print("TYPE OF AVOID")
+    print(avoid)
+    if (avoid == None):
+        print("NONEEEEE")
     avoid_list = preprocessing.tokenize_ingr_list(avoid)
 
     #Create a dictionary that maps recipe id to jaccard sim score 
