@@ -179,14 +179,14 @@ def label_recipe_for_all_dietary_restrictions(df, dietary_rest_dict):
                 #if intersection is empty, then recipe satisfies dietary restriction and label 'Y' in row: recipe id, col: dietary restriction 
                 if len(recipe_ing_set.intersection(dietary_rest_set))==0:
                     df.at[index,dietary_rest] = "Y"
-                    print("CELL VALUE")
-                    print(df[dietary_rest].loc[index])
+                    # print("CELL VALUE")
+                    # print(df[dietary_rest].loc[index])
       
                 #else recipe does not satisfy dietary restriction and label 'N' in row: recipe id, col: dietary restriction 
                 else:
                     df.at[index,dietary_rest] = "N"
-                    print("CELL VALUE")
-                    print(df[dietary_rest].loc[index])
+                    # print("CELL VALUE")
+                    # print(df[dietary_rest].loc[index])
   
              
 
