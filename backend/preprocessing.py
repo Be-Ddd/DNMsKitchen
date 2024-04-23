@@ -3,6 +3,7 @@ import ast
 from typing import List, Dict
 from collections import defaultdict
 import re
+import helper_functions
 
 def create_df():
   # Read the CSV files
@@ -26,6 +27,49 @@ def create_df():
   df['ingredient_ids'] = df['ingredient_ids'].apply(ast.literal_eval)
   df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
   df['steps'] = df['steps'].apply(ast.literal_eval)
+
+  #add columns in dataset df for each dietary restriction
+  #categorize food groups
+  meat_no_fish = ['chicken','turkey','beef','pork','duck','turkey' ]
+  fish = ['fish', 'salmon', 'sardines','trout', 'mackerel', 'cod', 'haddock', 'pollock'
+          'flounder', 'tilapia', 'shellfish', 'mussels', 'scallops', 'squid', 'mussels', 
+           'oysters', 'crab', 'shrimp', 'sea bass', 'halibut', 'tuna']
+  dairy = ['milk', 'ice cream', 'cheese', 'yogurt', 'cream', 'butter']
+  gluten_food = ['bread', 'beer', 'cake', 'pie', 'candy', 'cereal', 'cookie', 'croutons', 'french fries',
+                 'gravy', 'seafood', 'malt', 'pasta', 'hot dog', 'salad dressing', 'soy sauce', 'rice seasoning', 
+                 'chips', 'chicken', 'soup']
+  non_kosher = ['shellfish', 'crab', 'shrimp','lobster']
+  
+  #make dictionary with key = dietary restriction, value = list of ingredients that are NOT allowed
+  restriction_dict = {'vegetarian' : (meat_no_fish + fish),
+                      'pescetarian': meat_no_fish, 
+                      'vegan' : meat_no_fish + fish + dairy + ['eggs'],
+                      'lactose intolerant' : dairy, 'gluten free' : gluten_food, 
+                      'peanut allergy' : ['nuts', 'peanut', 'peanut butter'], 
+                      'kosher' : non_kosher, 
+                      'halal' : ['pork', 'eggs'] + dairy }
+  
+  #add empty col for each dietary restriction to df
+  for dietary_restriction in restriction_dict:
+    #cells are initialized to ""
+    df[dietary_restriction] ='' 
+
+  #label each recipe as satisfying or not satisfying each dietary restriction
+  helper_functions.label_recipe_for_all_dietary_restrictions(df, restriction_dict)
+
+  # print("LACTOSE INTOLERANT")
+  # print(type(df['lactose intolerant']))
+  # print(type(df))
+  # print(type(df['lactose intolerant'].loc[df.index[0]]))
+  # print(df['lactose intolerant'].loc[df.index[0]])
+  # # for index,row in df.iterrows(): 
+  # #   print(df.loc[row,'lactose intolerant'])
+  # # print("PESCETARIAN")
+  # print(df['pescetarian'])
+  # print("NEW DF")
+  # print(df)
+
+
   df.to_json('processed_data.json', orient='records')
   return df
 
