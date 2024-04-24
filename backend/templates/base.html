@@ -190,7 +190,7 @@
   </div>
 
   <script>
-    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim) {
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, sentcat, sent, rev1) {
       return `<div class=''>
                 <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>Ingredients: ${ingredients}</p>
@@ -199,9 +199,12 @@
                 <p class='episode-desc'>User Rating: ${avgrating}/5</p>
                 <p class='episode-desc'>Ingredient Similarity: ${jaccsim}</p>
                 <p class='episode-desc'>Other Details Similarity: ${svdsim}</p>
+                <p class='episode-desc'>User Review Sentiment: ${sentcat} (${sent})</p>
+                <p class='episode-desc'>One user says: ${rev1}</p>
                 <hr>
             </div>`
     }
+
 
     function noResultsTemplate() {
       return `<div class='no-results-box'>
@@ -281,7 +284,7 @@
             console.log("type", typeof (data))
             data.forEach(row => {
               let tempDiv = document.createElement("div");
-              tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim);
+              tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim, row.sentiment_category, row.sentiment, row.review[0]);
               document.getElementById("answer-box").appendChild(tempDiv);
             });
           } else {

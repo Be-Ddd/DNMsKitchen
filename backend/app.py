@@ -11,6 +11,8 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import normalize
 from scipy.sparse.linalg import svds
+from textblob import TextBlob
+
 
 # ROOT_PATH for linking with all your files. 
 # Feel free to use a config.py or settings.py with a global export variable
@@ -84,9 +86,14 @@ def json_search(ingr, mins, svd, avoid, calorie):
     print(svd_scores)
 
     matches['svd_sim'] = matches['id'].map(svd_scores)
+
+    #sentiment analysis
+    matches['sentiment'] = matches['review'].apply(get_sentiment)
+    matches['sentiment_category'] = matches['sentiment'].apply(get_sentiment_text)
+    
     
     #Sort recipes in matches df by similarity score and convert it to JSON format. 
-    matches = matches.sort_values(by=['jacc_sim', 'svd_sim'], ascending=False)
+    matches = matches.sort_values(by=['jacc_sim', 'sentiment', 'svd_sim'], ascending=False)
     matches_json = matches.to_json(orient='records')
     print("MATCHES AS JSON")
     return matches_json
@@ -114,6 +121,24 @@ def recipes_search():
 if 'DB_NAME' not in os.environ:
     app.run(debug=True,host="0.0.0.0",port=5000)
 
+
+# sentiment analysis
+def get_sentiment(reviews):
+    combined_reviews = ' '.join(reviews)
+    analysis = TextBlob(combined_reviews)
+    return analysis.sentiment[0]
+
+def get_sentiment_text(sent):
+    if sent < -0.5:
+        return "Very Negative"
+    elif -0.5 <= sent < -0.1:
+        return "Fairly Negative"
+    elif -0.1 <= sent <= 0.1:
+        return "Neutral"
+    elif 0.1 < sent <= 0.5:
+        return "Fairly Positive"
+    else:
+        return "Very Positive"
 
 #SVD 
 
