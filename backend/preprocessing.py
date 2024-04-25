@@ -38,7 +38,7 @@ def create_df():
   gluten_food = ['bread', 'beer', 'cake', 'pie', 'candy', 'cereal', 'cookie', 'croutons', 'french fries',
                  'gravy', 'seafood', 'malt', 'pasta', 'hot dog', 'salad dressing', 'soy sauce', 'rice seasoning', 
                  'chips', 'chicken', 'soup']
-  non_kosher = ['shellfish', 'crab', 'shrimp','lobster']
+  non_kosher = ['shellfish', 'crab', 'shrimp', 'lobster', 'pork ']
   
   #make dictionary with key = dietary restriction, value = list of ingredients that are NOT allowed
   restriction_dict = {'vegetarian' : (meat_no_fish + fish),
@@ -47,7 +47,7 @@ def create_df():
                       'lactose intolerant' : dairy, 'gluten free' : gluten_food, 
                       'peanut allergy' : ['nuts', 'peanut', 'peanut butter'], 
                       'kosher' : non_kosher, 
-                      'halal' : ['pork', 'eggs'] + dairy }
+                      'halal' : meat_no_fish }
   
   #add empty col for each dietary restriction to df
   for dietary_restriction in restriction_dict:

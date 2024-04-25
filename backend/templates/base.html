@@ -38,24 +38,42 @@
               Select
             </button>
             <ul id="appliance-menu" class="appliance-menu dropdown-menu" aria-labelledby="applianceDropdown">
-              <li>
-                <label>
-                  <input type="checkbox" value="Oven">
-                  Oven
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" value="Microwave">
-                  Microwave
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" value="Pan">
-                  Pan
-                </label>
-              </li>
+              <li><label>
+                <input type="checkbox" value="Oven">
+                Oven
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Microwave">
+                Microwave
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Air-Fryer">
+                Air Fryer
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Stove">
+                Stove
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Pan">
+                Pan
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Blender">
+                Blender
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Toaster">
+                Toaster
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Rice-Cooker">
+                Rice Cooker
+              </label></li>
+              <li><label>
+                <input type="checkbox" value="Pressure-Cooker">
+                Pressure Cooker
+              </label></li>
             </ul>
           </div>
 
@@ -66,135 +84,90 @@
               Select
             </button>
             <ul id="diet-menu" class="dropdown-menu diet-menu" aria-labelledby="dietDropdown">
-              <li>
-                <label>
+              <li><label>
                   <input type="checkbox" value="Vegetarian">
                   Vegetarian
-                </label>
-              </li>
-              <li>
-                <label>
+              </label></li>
+              <li><label>
                   <input type="checkbox" value="Vegan">
                   Vegan
-                </label>
-              </li>
-              <li>
-                <label>
+              </label></li>
+              <li><label>
                   <input type="checkbox" value="Pescatarian">
                   Pescatarian
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" value="Vegetarian">
+              </label></li>
+              <li><label>
+                  <input type="checkbox" value="Lactose-Intorlerant">
                   Lactose Intolerant
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" value="Vegan">
+              </label></li>
+              <li><label>
+                  <input type="checkbox" value="Peanut-Allergy">
                   Peanut Allergy
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" value="Pescatarian">
+              </label></li>
+              <li><label>
+                  <input type="checkbox" value="Kosher">
                   Kosher
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" value="Pescatarian">
+              </label></li>
+              <li><label>
+                  <input type="checkbox" value="Halal">
                   Halal
-                </label>
-              </li>
+              </label></li>
             </ul>
           </div>
 
-  <div class="mb-4">
-    <label for="calories-input" class="form-label">Calories</label>
-    <input class="form-control w-25" placeholder="Ex: 300" id="calories-input">
-  </div>
+          <div class="mb-4">
+            <label for="calories-input" class="form-label">Calories</label>
+            <input class="form-control w-25" placeholder="Ex: 300" id="calories-input">
+          </div>
 
-          <div class="mb-4" onclick="sendFocus('avoid-input')">
+          <div class="mb-4">
             <label for="avoid-input" class="form-label">Ingredients to Avoid</label>
             <input class="form-control w-75" placeholder="Ex: peanuts, soy" id="avoid-input">
           </div>
 
-          <!-- <div class="input-box" onclick="sendFocus('svd-input')">
+          <!-- <div class="input-box">
         <input placeholder="Required: Any appliances or other requests?" id="svd-input">
       </div> -->
           <button class="submit-button" onclick="filterText()">Get Your Recipe</button>
-
-          <!-- TODO: REST OF INPUTS -->
-          <!-- <div class="inputs-row">
-                <fieldset>
-                    <legend>Dietary Restrictions:</legend>
-                  
-                    <div>
-                      <input type="checkbox" id="scales" name="scales" checked />
-                      <label for="scales">Vegetarian</label>
-                    </div>
-                  
-                    <div>
-                      <input type="checkbox" id="horns" name="horns" />
-                      <label for="horns">Vegan</label>
-                    </div>
-                  </fieldset>
-                  <fieldset>
-                    <legend>Available Appliances:</legend>
-                  
-                    <div>
-                      <input type="checkbox" id="scales" name="scales" checked />
-                      <label for="scales">Microwave</label>
-                    </div>
-                  
-                    <div>
-                      <input type="checkbox" id="horns" name="horns" />
-                      <label for="horns">Oven</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="horns" name="horns" />
-                        <label for="horns">Stove</label>
-                      </div>
-                  </fieldset>
-                  <fieldset>
-                    <legend>Max Cooking Time:</legend>
-                  
-                    <div>
-                      <input type="checkbox" id="scales" name="scales" checked />
-                      <label for="scales">5 min</label>
-                    </div>
-                  
-                    <div>
-                      <input type="checkbox" id="horns" name="horns" />
-                      <label for="horns">10 min</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="horns" name="horns" />
-                    <label for="horns">20 min</label>
-                    </div>
-                    <div>
-                    <input type="checkbox" id="horns" name="horns" />
-                    <label for="horns">1 hour</label>
-                    </div>
-                  </fieldset>
-                  
-            </div> -->
         </div>
       </div>
     </div>
     <div id="answer-box">
-      
     </div>
   </div>
 
   <script>
+    const icons = {
+      'Gluten Free': 'fa-wheat-awn', 
+      'Halal': 'fa-star-and-crescent', 
+      'Kosher': 'fa-star-of-david', 
+      'Lactose Free': 'fa-glass-water', 
+      'Peanut Free': 'fa-face-smile', 
+      'Pescatarian': 'fa-fish', 
+      'Vegan': 'fa-leaf', 
+      'Vegetarian': 'fa-seedling'
+    }
 
-    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim) {
+    // const icons = ['fa-wheat-awn', 'fa-star-and-cresent', 'fa-star-of-david', 'fa-glass-water', 'fa-face-smile', 'fa-fish', 'fa-leaf', 'fa-seedling']
+
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegan, vegetarian) {
       const ingr = ingredients.join(", ");
       const recipe = name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
       const stepslst = steps.join(". ")
+
+      // let jaccsim = Math.round(jaccsim, 5)
+      let svdsimRounded = parseFloat(Number(svdsim).toFixed(5))
+
+      // Reviews
+      let numReviews = reviews.length
+      let firstReview = reviews[0]
+      let restReviews = reviews.slice(1, 4)
+      let restReviewsDiv = document.createElement('div')
+      restReviews.forEach(review => {
+        let reviewP = document.createElement('p')
+        reviewP.innerHTML = "\""+review+"\""
+        restReviewsDiv.append(reviewP)
+      })
 
       // Ingredients
       let ingrDiv = document.createElement('div');
@@ -202,7 +175,6 @@
       tempDiv.classList.add('ingredients-row');
       ingrDiv.append(tempDiv)
       ingredients.forEach(ingr => {
-        console.log(ingr)
         let ingrEl = document.createElement("p");
         ingrEl.innerHTML = ingr;
         ingrEl.classList.add('ingredient')
@@ -211,6 +183,7 @@
       
       // Rating Stars
       const roundedRating = Math.round(avgrating)
+      const decimalRating = Math.round(avgrating, 2)
       let starsDiv = document.createElement("div");
       for (let i = 0; i < roundedRating; i++) {
         let star = document.createElement("i");
@@ -221,36 +194,61 @@
 
       // Steps
       var re = /(^|[.!?]\s+)([a-z])/g;
-      // var s = "fort collins, croton-on-hudson, harper's ferry, coeur d'alene, o'fallon"; 
       stepsUppercased = stepslst.replace(re, function(x){return x.toUpperCase();});
 
       // document.getElementById("answer-box").appendChild(tempDiv);
+      let labelsWrapper = document.createElement('div')
+      let labelsDiv = document.createElement('div')
+      labelsWrapper.append(labelsDiv)
+      // const labels = ['gluten', 'halal', 'kosher', 'lactose', 'peanut', 'pescatarian', 'vegan', 'vegetarian']
+      const labels = {'Gluten Free':gluten, 'Halal':halal, 'Kosher':kosher, 'Lactose Free':lactose, 'Peanut Free':peanut, 'Pescatarian':pescatarian, 'Vegetarian':vegetarian, 'Vegan':vegan}
 
-      // return `<div class='recipe-card'>
-      //           <h3 class='episode-title'><i class="fa-solid fa-utensils"></i> ${recipe}</h3>
-      //           <div class='rating-time-row'>
-      //             <p class='episode-desc'><i class="fa-regular fa-clock"></i> Total Time: ${minutes} mins</p>
-      //             <p class='episode-desc'>Our Rating: ${starsDiv.innerHTML}</p>
-      //           </div>
-      //           <p class='episode-desc subheading'>Ingredients </p>
-      //           <p class='episode-desc'>${ingrDiv.innerHTML}</p>
-      return `<div class=''>
-                <h3 class='episode-title'>${name}</h3>
-                <p class='episode-desc'>Ingredients: ${ingredients}</p>
-                <p class='episode-desc'>Time to make: ${minutes} minutes</p>
-                <p class='episode-desc'>Steps: ${steps}</p>
-                <p class='episode-desc'>User Rating: ${avgrating}/5</p>
-                <p class='episode-desc'>Ingredient Similarity: ${jaccsim}</p>
-                <p class='episode-desc'>Other Details Similarity: ${svdsim}</p>
-                <p class='episode-desc subheading'>Steps</p>
-                <div id='steps'>
-                  <div class="collapse show" id="collapseExample">
-                    <p class='episode-desc'>${stepsUppercased}</p>  
-                  </div>
-                  <a class="show-more" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
-                   
-                  </a>
+
+      Object.keys(labels).forEach(label => {
+        if (labels[label] == "Y") {
+          // console.log(labels[label])
+          let icon = document.createElement('i')
+          icon.classList.add("fa-solid");
+          icon.classList.add(icons[label]);
+          icon.classList.add('diet-label-icon')
+          let labelEl = document.createElement('div')
+          labelEl.append(icon)
+          let space = document.createElement('p')
+          space.innerHTML = " "
+          labelEl.append(space)
+          labelEl.append(label)
+          labelEl.classList.add('diet-label')
+          labelsDiv.append(labelEl)
+          labelsDiv.classList.add('diet-label-row')
+        }
+      });
+
+      return `<div class='recipe-card'>
+                <h3 class='episode-title'><i class="fa-solid fa-utensils"></i> ${recipe}</h3>
+                <div class='rating-time-row'>
+                  <p class='episode-desc'><i class="fa-regular fa-clock"></i> Total Time: ${minutes} mins</p>
+                  <p class='episode-desc'>Rating: ${starsDiv.innerHTML}  ${decimalRating}  (${numReviews} Reviews)</p>
                 </div>
+                <div class='row'>
+                  ${labelsWrapper.innerHTML}
+                </div>
+                <p class='episode-desc subheading'>Ingredients </p>
+                <p class='episode-desc'>${ingrDiv.innerHTML}</p>
+      
+                <div class="row">
+                  <p class='episode-desc'>Ingredient Similarity: ${jaccsim}, Other Details Similarity: ${svdsimRounded}</p>
+                </div>
+                <p class='episode-desc subheading'>Instructions</p>
+                <div>
+                  <p class='episode-desc'>${stepsUppercased}</p>
+                </div>
+                <p class='subheading'>Reviews </p>
+                <p class="episode-desc">"${firstReview}"</p>
+                <div class="collapsing-box">
+                  <div class="collapse" id="collapseExample">${restReviewsDiv.innerHTML}</div>
+                  <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    See more reviews
+                  </a>
                 <hr>
             </div>`
     }
@@ -262,16 +260,11 @@
             </div>`
     }
 
-    function sendFocus(inputId) {
-      document.getElementById('inputId').focus()
-    }
-
     let svdInput = ""
 
     const applianceDropdownBtn = document.getElementById('applianceDropdown');
     const applianceDropdownMenu = document.querySelector('.appliance-menu');
     let selectedAppliances = [];
-
     function handleApplianceSelection(event, field) {
       const checkbox = event.target;
       if (checkbox.checked) {
@@ -283,13 +276,11 @@
       applianceDropdownBtn.innerText = selectedAppliances.length > 0 ? selectedAppliances.join(', ') : 'Select Items';
       console.log(svdInput)
     }
-
     applianceDropdownMenu.addEventListener('change', function () { handleApplianceSelection(event, 'Appliances') });
 
     const dietDropdownBtn = document.getElementById('dietDropdown');
     const dietDropdownMenu = document.querySelector('.diet-menu');
     let selectedDiets = [];
-
     function handleDietSelection(event, field) {
       const checkbox = event.target;
       if (checkbox.checked) {
@@ -303,10 +294,7 @@
       console.log(document.getElementById("minutes-input").value)
       console.log(document.getElementById("ingredients-input").value)
     }
-
     dietDropdownMenu.addEventListener('change', function () { handleDietSelection(event, 'Diets') });
-
-
     function filterText() {
       document.getElementById("answer-box").innerHTML = ""
       console.log(document.getElementById("ingredients-input").value)
@@ -333,32 +321,30 @@
           if (data.length != 0) {
             console.log("type", typeof (data))
             data.forEach(row => {
+              console.log(row)
               let tempDiv = document.createElement("div");
-              tempDiv.innerHTML = answerBoxTemplate(row.name, row.ingredients, row.minutes, row.steps, row.avg_rating, row.jacc_sim, row.svd_sim);
+              tempDiv.innerHTML = answerBoxTemplate(row.name, 
+              row.ingredients, 
+              row.minutes, 
+              row.steps, 
+              row.avg_rating, 
+              row.jacc_sim, 
+              row.svd_sim,
+              row.review,
+              row['gluten free'], 
+              row['halal'], 
+              row['kosher'], 
+              row['lactose intolerant'],
+              row['peanut allergy'],
+              row['pescatarian'],
+              row['vegetarian'],
+              row['vegan']);
               document.getElementById("answer-box").appendChild(tempDiv);
             });
           } else {
+            console.log('no recipes')
             let tempDiv = document.createElement("div");
-            // tempDiv.innerHTML = noResultsTemplate();
-            tempDiv.innerHTML = answerBoxTemplate("low fat berry blue frozen dessert", 
-            ["blueberries","granulated sugar","vanilla yogurt","lemon juice"], 
-            1485, 
-            ["toss 2 cups berries with sugar","let stand for 45 minutes , stirring occasionally","transfer berry-sugar mixture to food processor","add yogurt and process until smooth","strain through fine sieve","pour into baking pan","freeze uncovered until edges are solid but centre is soft","transfer to processor and blend until smooth again","return to pan and freeze until edges are solid","transfer to processor and blend until smooth again","fold in remaining 2 cups of blueberries","pour into plastic mold and freeze overnight","let soften slightly to serve"],
-            4.234,
-            0.0213,
-            null)
-            document.getElementById("answer-box").appendChild(tempDiv);
-
-            let tempDiv2 = document.createElement("div");
-            // tempDiv.innerHTML = noResultsTemplate();
-            tempDiv2.innerHTML = answerBoxTemplate("low fat berry blue frozen dessert", 
-            ["blueberries","granulated sugar","vanilla yogurt","lemon juice"], 
-            1485, 
-            ["toss 2 cups berries with sugar","let stand for 45 minutes , stirring occasionally","transfer berry-sugar mixture to food processor","add yogurt and process until smooth","strain through fine sieve","pour into baking pan","freeze uncovered until edges are solid but centre is soft","transfer to processor and blend until smooth again","return to pan and freeze until edges are solid","transfer to processor and blend until smooth again","fold in remaining 2 cups of blueberries","pour into plastic mold and freeze overnight","let soften slightly to serve"],
-            4.234,
-            0.0213,
-            null)
-            document.getElementById("answer-box").appendChild(tempDiv2);
+            tempDiv.innerHTML = noResultsTemplate();
           }
         })
         .catch(error => {
