@@ -93,7 +93,7 @@ def json_search(ingr, mins, svd, avoid, calorie):
     
     
     #Sort recipes in matches df by similarity score and convert it to JSON format. 
-    matches = matches.sort_values(by=['jacc_sim', 'sentiment', 'svd_sim'], ascending=False)
+    matches = matches.sort_values(by=['jacc_sim','svd_sim', 'sentiment'], ascending=False)
     matches_json = matches.to_json(orient='records')
     print("MATCHES AS JSON")
     return matches_json
