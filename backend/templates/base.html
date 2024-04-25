@@ -125,6 +125,11 @@
             <input class="form-control w-75" placeholder="Ex: peanuts, soy" id="avoid-input">
           </div>
 
+          <div class="mb-4">
+            <label for="svd-input" class="form-label">Extra Description</label>
+            <input class="form-control w-75" placeholder="Ex: I want a quick and easy recipe!" id="svd-input">
+          </div>
+
           <!-- <div class="input-box">
         <input placeholder="Required: Any appliances or other requests?" id="svd-input">
       </div> -->
@@ -236,7 +241,7 @@
                 <p class='episode-desc'>${ingrDiv.innerHTML}</p>
       
                 <div class="row">
-                  <p class='episode-desc'>Ingredient Similarity: ${jaccsim}, Other Details Similarity: ${svdsimRounded}</p>
+                  <p class='episode-desc'>Ingredient Similarity: ${jaccsim}, Description Similarity: ${svdsimRounded}</p>
                 </div>
                 <p class='episode-desc'>User Review Sentiment: ${sentcat} (${sent})</p>
                 <p class='episode-desc subheading'>Instructions</p>
@@ -292,7 +297,7 @@
       }
 
       dietDropdownBtn.innerText = selectedDiets.length > 0 ? selectedDiets.join(', ') : 'Select Items';
-      console.log(svdInput)
+      //console.log(svdInput)
       console.log(document.getElementById("minutes-input").value)
       console.log(document.getElementById("ingredients-input").value)
     }
@@ -301,14 +306,14 @@
       document.getElementById("answer-box").innerHTML = ""
       console.log(document.getElementById("ingredients-input").value)
       console.log(document.getElementById("minutes-input").value)
-      // console.log(document.getElementById("svd-input").value)
+      console.log(document.getElementById("svd-input").value)
 
-      svdInput = selectedDiets.join(', ') + " " + selectedAppliances.join(', ') + " " + document.getElementById("calories-input").value + "-calories avoid-" + document.getElementById("avoid-input").value
+      // svdInput = selectedDiets.join(', ') + " " + selectedAppliances.join(', ') + " " + document.getElementById("calories-input").value + "-calories avoid-" + document.getElementById("avoid-input").value
 
       fetch("/recipes?" + new URLSearchParams({
         ingredient: document.getElementById("ingredients-input").value,
         minutes: document.getElementById("minutes-input").value,
-        svd: svdInput,
+        svd: document.getElementById("svd-input").value,
         avoid: document.getElementById("avoid-input").value
       }).toString())
         .then(response => {

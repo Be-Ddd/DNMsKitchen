@@ -160,7 +160,7 @@ recipes = []
 for index, row in result.iterrows():
   review = row['review']
   review = ''.join(str(x) for x in review)
-  recipes.append((row["name"], str(row["tags"]), str(row["tags"])+str(row['name'])+str(row["steps"])+str(row["description"]), review))
+  recipes.append((row["name"], str(row["tags"]), str(row['name'])+str(row["description"])+str(row["review"]), review))
 
 vectorizer = TfidfVectorizer(stop_words = ['english', 'time-to-make', 'course', 'cuisine', 'main-ingredient', 'occasion', 'equipment', 'preparation'], max_df = .8, min_df = 1)
 td_matrix = vectorizer.fit_transform([x[2] for x in recipes])
@@ -168,7 +168,7 @@ td_matrix = vectorizer.fit_transform([x[2] for x in recipes])
 from scipy.sparse.linalg import svds
 u, s, v_trans = svds(td_matrix, k=100)
 
-docs_compressed, s, words_compressed = svds(td_matrix, k=100)
+docs_compressed, s, words_compressed = svds(td_matrix, k=40)
 words_compressed = words_compressed.transpose()
 
 words_compressed_normed = normalize(words_compressed, axis = 1)
