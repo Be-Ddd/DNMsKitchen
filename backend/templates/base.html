@@ -150,7 +150,7 @@
 
     // const icons = ['fa-wheat-awn', 'fa-star-and-cresent', 'fa-star-of-david', 'fa-glass-water', 'fa-face-smile', 'fa-fish', 'fa-leaf', 'fa-seedling']
 
-    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, sentcat, sent, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegan, vegetarian) {
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, sentcat, sent, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegetarian, vegan) {
       const ingr = ingredients.join(", ");
       const recipe = name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
       const stepslst = steps.join(". ")

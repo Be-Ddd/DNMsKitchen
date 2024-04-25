@@ -28,13 +28,16 @@ def create_df():
   df['ingredients'] = df['ingredients'].apply(ast.literal_eval)
   df['steps'] = df['steps'].apply(ast.literal_eval)
 
+  # remove 0 minute recipes
+  df = df[df['minutes']!=0]
+
   #add columns in dataset df for each dietary restriction
   #categorize food groups
-  meat_no_fish = ['chicken','turkey','beef','pork','duck','turkey' ]
+  meat_no_fish = ['chicken','bacon','turkey','beef','pork','duck','turkey', 'steak', 'wings', 'boneless skinless chicken breast halves' ]
   fish = ['fish', 'salmon', 'sardines','trout', 'mackerel', 'cod', 'haddock', 'pollock'
           'flounder', 'tilapia', 'shellfish', 'mussels', 'scallops', 'squid', 'mussels', 
            'oysters', 'crab', 'shrimp', 'sea bass', 'halibut', 'tuna']
-  dairy = ['milk', 'ice cream', 'cheese', 'yogurt', 'cream', 'butter']
+  dairy = ['milk', 'ice cream', 'cheese', 'yogurt', 'cream', 'butter', 'buttermilk', 'heavy cream']
   gluten_food = ['bread', 'beer', 'cake', 'pie', 'candy', 'cereal', 'cookie', 'croutons', 'french fries',
                  'gravy', 'seafood', 'malt', 'pasta', 'hot dog', 'salad dressing', 'soy sauce', 'rice seasoning', 
                  'chips', 'chicken', 'soup']
@@ -43,9 +46,10 @@ def create_df():
   #make dictionary with key = dietary restriction, value = list of ingredients that are NOT allowed
   restriction_dict = {'vegetarian' : (meat_no_fish + fish),
                       'pescetarian': meat_no_fish, 
-                      'vegan' : meat_no_fish + fish + dairy + ['eggs'],
-                      'lactose intolerant' : dairy, 'gluten free' : gluten_food, 
-                      'peanut allergy' : ['nuts', 'peanut', 'peanut butter'], 
+                      'vegan' : (meat_no_fish + fish + dairy + ['eggs', 'egg']),
+                      'lactose intolerant' : dairy, 
+                      'gluten free' : gluten_food, 
+                      'peanut allergy' : ['nuts', 'peanut', 'peanut butter', 'crushed peanuts'], 
                       'kosher' : non_kosher, 
                       'halal' : meat_no_fish }
   
