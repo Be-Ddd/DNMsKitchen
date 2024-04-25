@@ -150,7 +150,7 @@
 
     // const icons = ['fa-wheat-awn', 'fa-star-and-cresent', 'fa-star-of-david', 'fa-glass-water', 'fa-face-smile', 'fa-fish', 'fa-leaf', 'fa-seedling']
 
-    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegan, vegetarian) {
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, sentcat, sent, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegan, vegetarian) {
       const ingr = ingredients.join(", ");
       const recipe = name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
       const stepslst = steps.join(". ")
@@ -238,6 +238,7 @@
                 <div class="row">
                   <p class='episode-desc'>Ingredient Similarity: ${jaccsim}, Other Details Similarity: ${svdsimRounded}</p>
                 </div>
+                <p class='episode-desc'>User Review Sentiment: ${sentcat} (${sent})</p>
                 <p class='episode-desc subheading'>Instructions</p>
                 <div>
                   <p class='episode-desc'>${stepsUppercased}</p>
@@ -252,6 +253,7 @@
                 <hr>
             </div>`
     }
+
 
     function noResultsTemplate() {
       return `<div class='no-results-box'>
@@ -330,6 +332,8 @@
               row.avg_rating, 
               row.jacc_sim, 
               row.svd_sim,
+              row.sentiment_category, 
+              row.sentiment,
               row.review,
               row['gluten free'], 
               row['halal'], 
