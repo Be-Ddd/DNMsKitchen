@@ -20,19 +20,19 @@
         <img id="logo-img" src="../static/images/dnms-kitchen-logo.svg" />
       </div>
       <div class="mt-5 form">
-        <div class="mt-2 mb-4 w-75" onclick="sendFocus('ingredients-input')">
+        <div class="mt-2 mb-4 w-75" >
           <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
           <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes"
             id="ingredients-input">
         </div>
         <div class="sub-inputs w-75">
           <p class="mt-2">Additional Filters</p>
-          <div class="mb-4" onclick="sendFocus('minutes-input')">
+          <div class="mb-4" >
             <label for="minutes-input" class="form-label">Max cooking time, mins (Required)</label>
             <input class="form-control w-25" placeholder="Ex: 30" id="minutes-input">
           </div>
           <div class="dropdown mb-4">
-            <label for="appliances-input" class="form-label">Available Appliances (Required)</label>
+            <label for="appliances-input" class="form-label">Available Appliances</label>
             <button class="btn form-control dropdown-toggle w-75" type="button" id="applianceDropdown"
               data-bs-toggle="dropdown" aria-expanded="false">
               Select
@@ -111,10 +111,10 @@
             </ul>
           </div>
 
-          <div class="mb-4" onclick="sendFocus('calories-input')">
-            <label for="calories-input" class="form-label">Calories</label>
-            <input class="form-control w-25" placeholder="Ex: 300" id="calories-input">
-          </div>
+  <div class="mb-4">
+    <label for="calories-input" class="form-label">Calories</label>
+    <input class="form-control w-25" placeholder="Ex: 300" id="calories-input">
+  </div>
 
           <div class="mb-4" onclick="sendFocus('avoid-input')">
             <label for="avoid-input" class="form-label">Ingredients to Avoid</label>
@@ -185,12 +185,55 @@
       </div>
     </div>
     <div id="answer-box">
-
+      
     </div>
   </div>
 
   <script>
+
     function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim) {
+      const ingr = ingredients.join(", ");
+      const recipe = name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+      const stepslst = steps.join(". ")
+
+      // Ingredients
+      let ingrDiv = document.createElement('div');
+      let tempDiv = document.createElement('div')
+      tempDiv.classList.add('ingredients-row');
+      ingrDiv.append(tempDiv)
+      ingredients.forEach(ingr => {
+        console.log(ingr)
+        let ingrEl = document.createElement("p");
+        ingrEl.innerHTML = ingr;
+        ingrEl.classList.add('ingredient')
+        tempDiv.append(ingrEl); 
+      })
+      
+      // Rating Stars
+      const roundedRating = Math.round(avgrating)
+      let starsDiv = document.createElement("div");
+      for (let i = 0; i < roundedRating; i++) {
+        let star = document.createElement("i");
+        star.classList.add("fa-solid");
+        star.classList.add("fa-star");
+        starsDiv.append(star);
+      }
+
+      // Steps
+      var re = /(^|[.!?]\s+)([a-z])/g;
+      // var s = "fort collins, croton-on-hudson, harper's ferry, coeur d'alene, o'fallon"; 
+      stepsUppercased = stepslst.replace(re, function(x){return x.toUpperCase();});
+
+      // document.getElementById("answer-box").appendChild(tempDiv);
+
+      // return `<div class='recipe-card'>
+      //           <h3 class='episode-title'><i class="fa-solid fa-utensils"></i> ${recipe}</h3>
+      //           <div class='rating-time-row'>
+      //             <p class='episode-desc'><i class="fa-regular fa-clock"></i> Total Time: ${minutes} mins</p>
+      //             <p class='episode-desc'>Our Rating: ${starsDiv.innerHTML}</p>
+      //           </div>
+      //           <p class='episode-desc subheading'>Ingredients </p>
+      //           <p class='episode-desc'>${ingrDiv.innerHTML}</p>
       return `<div class=''>
                 <h3 class='episode-title'>${name}</h3>
                 <p class='episode-desc'>Ingredients: ${ingredients}</p>
@@ -199,13 +242,23 @@
                 <p class='episode-desc'>User Rating: ${avgrating}/5</p>
                 <p class='episode-desc'>Ingredient Similarity: ${jaccsim}</p>
                 <p class='episode-desc'>Other Details Similarity: ${svdsim}</p>
+                <p class='episode-desc subheading'>Steps</p>
+                <div id='steps'>
+                  <div class="collapse show" id="collapseExample">
+                    <p class='episode-desc'>${stepsUppercased}</p>  
+                  </div>
+                  <a class="show-more" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
+                   
+                  </a>
+                </div>
                 <hr>
             </div>`
     }
 
     function noResultsTemplate() {
       return `<div class='no-results-box'>
-              <p class='no-results'>DNM does not have a recipe for you. Try a new search.</p>
+              <p class='no-results'>DNM does not have this kind of recipe :( </p>
+              <p class='no-results'>Try to increase the time or enter different ingredients.</p>
             </div>`
     }
 
@@ -286,8 +339,26 @@
             });
           } else {
             let tempDiv = document.createElement("div");
-            tempDiv.innerHTML = noResultsTemplate();
+            // tempDiv.innerHTML = noResultsTemplate();
+            tempDiv.innerHTML = answerBoxTemplate("low fat berry blue frozen dessert", 
+            ["blueberries","granulated sugar","vanilla yogurt","lemon juice"], 
+            1485, 
+            ["toss 2 cups berries with sugar","let stand for 45 minutes , stirring occasionally","transfer berry-sugar mixture to food processor","add yogurt and process until smooth","strain through fine sieve","pour into baking pan","freeze uncovered until edges are solid but centre is soft","transfer to processor and blend until smooth again","return to pan and freeze until edges are solid","transfer to processor and blend until smooth again","fold in remaining 2 cups of blueberries","pour into plastic mold and freeze overnight","let soften slightly to serve"],
+            4.234,
+            0.0213,
+            null)
             document.getElementById("answer-box").appendChild(tempDiv);
+
+            let tempDiv2 = document.createElement("div");
+            // tempDiv.innerHTML = noResultsTemplate();
+            tempDiv2.innerHTML = answerBoxTemplate("low fat berry blue frozen dessert", 
+            ["blueberries","granulated sugar","vanilla yogurt","lemon juice"], 
+            1485, 
+            ["toss 2 cups berries with sugar","let stand for 45 minutes , stirring occasionally","transfer berry-sugar mixture to food processor","add yogurt and process until smooth","strain through fine sieve","pour into baking pan","freeze uncovered until edges are solid but centre is soft","transfer to processor and blend until smooth again","return to pan and freeze until edges are solid","transfer to processor and blend until smooth again","fold in remaining 2 cups of blueberries","pour into plastic mold and freeze overnight","let soften slightly to serve"],
+            4.234,
+            0.0213,
+            null)
+            document.getElementById("answer-box").appendChild(tempDiv2);
           }
         })
         .catch(error => {
@@ -305,4 +376,5 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
     integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
     crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/d6bceb316e.js" crossorigin="anonymous"></script>
 </body>
