@@ -45,11 +45,11 @@ def create_df():
   
   #make dictionary with key = dietary restriction, value = list of ingredients that are NOT allowed
   restriction_dict = {'vegetarian' : (meat_no_fish + fish),
-                      'pescetarian': meat_no_fish, 
+                      'pescatarian': meat_no_fish, 
                       'vegan' : (meat_no_fish + fish + dairy + ['eggs', 'egg']),
-                      'lactose intolerant' : dairy, 
+                      'lactose-intolerant' : dairy, 
                       'gluten free' : gluten_food, 
-                      'peanut allergy' : ['nuts', 'peanut', 'peanut butter', 'crushed peanuts'], 
+                      'peanut-allergy' : ['nuts', 'peanut', 'peanut butter', 'crushed peanuts'], 
                       'kosher' : non_kosher, 
                       'halal' : meat_no_fish }
   
