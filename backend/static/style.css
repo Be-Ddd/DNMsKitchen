@@ -310,3 +310,17 @@ hr {
 .diet-label-icon {
     margin-right: 5px;
 }
+
+.sentiment-row {
+    font-style: italic;
+    /* background-color: darkgray;
+    width: fit-content; */
+}
+
+.negative {
+    color: #DB4437;
+}
+
+.positive {
+    color: #50C878;
+}

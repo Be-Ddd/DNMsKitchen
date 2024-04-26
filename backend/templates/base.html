@@ -150,7 +150,12 @@
       'Peanut Free': 'fa-face-smile', 
       'Pescatarian': 'fa-fish', 
       'Vegan': 'fa-leaf', 
-      'Vegetarian': 'fa-seedling'
+      'Vegetarian': 'fa-seedling',
+      'Neutral': 'fa-face-meh',
+      'Fairly Positive': 'fa-face-smile',
+      'Very Positive': 'fa-face-laugh-beam',
+      'Fairly Negative': 'fa-face-frown',
+      'Very Negative': 'fa-face-angry'
     }
 
     // const icons = ['fa-wheat-awn', 'fa-star-and-cresent', 'fa-star-of-david', 'fa-glass-water', 'fa-face-smile', 'fa-fish', 'fa-leaf', 'fa-seedling']
@@ -228,6 +233,21 @@
         }
       });
 
+      let sentimentIconI = document.createElement('i')
+      sentimentIconI.classList.add("fa-solid");
+      sentimentIconI.classList.add(icons[sentcat]);
+
+      let sentimentIconDiv = document.createElement('div');
+      sentimentIconDiv.append(sentimentIconI);
+      let sentTextP = document.createElement('p')
+      sentTextP.append(sentcat)
+
+      // if (sentcat in ['Neutral', 'Fairly Positive', 'Very Positive']) {
+      //   document.getElementsByClassName('sentiment-row').classList.add('positive')
+      // } else {
+      //   document.getElementsByClassName('sentiment-row').classList.add('negative')
+      // }
+
       return `<div class='recipe-card'>
                 <h3 class='episode-title'><i class="fa-solid fa-utensils"></i> ${recipe}</h3>
                 <div class='rating-time-row'>
@@ -249,6 +269,9 @@
                   <p class='episode-desc'>${stepsUppercased}</p>
                 </div>
                 <p class='subheading'>Reviews </p>
+                <div class='row sentiment-row'>
+                  <p>${sentimentIconDiv.innerHTML} The reviews for this recipe are ${sentTextP.innerHTML}</p>
+                </div>
                 <p class="episode-desc">"${firstReview}"</p>
                 <div class="collapsing-box">
                   <div class="collapse" id="collapseExample">${restReviewsDiv.innerHTML}</div>
