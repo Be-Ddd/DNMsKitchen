@@ -39,14 +39,19 @@ CORS(app)
 def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
     matches = []
     
-    print(selected_diets)
-    #extract list of ingredients from user query
+    #extract list of ingredients and appliances from user query
     ingr_list = preprocessing.tokenize_ingr_list(ingr)
-    print("TYPE OF AVOID")
-    print(avoid)
-    if (avoid == None):
-        print("NONEEEEE")
+    # print("TYPE OF AVOID")
+    # print(avoid)
+    # if (avoid == None):
+    #     print("NONEEEEE")
     avoid_list = preprocessing.tokenize_ingr_list(avoid)
+    
+    #extract list of dietary restrictions from user query
+    selected_diets = preprocessing.tokenize_ingr_list(selected_diets)
+    #make letters all lowercase for dietary restrictions
+    selected_diets = [dietary_restriction.lower() for dietary_restriction in selected_diets]
+
 
     #Create a dictionary that maps recipe id to jaccard sim score 
     #Calculate jacc sim score between recipe ing list and query ing list for recipes that contain 1 or more query ingredients. 
@@ -74,10 +79,40 @@ def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
     print("MATCHES")
     print(matches) 
     
+
     #Map similarity scores from scores dict to corresponding recipe id in matches df
     matches['jacc_sim'] = matches['id'].map(scores)
     print("MATCHES ADDING SIM SCORE")
     print(matches)
+
+    #Filter out matched recipes that do not satisfy at least 1 of the user's selected dietary restrictions (take union of dietary restriction recipes).
+    print("FIND DF SUBSETS WHICH SATISFY DIETARY RESTRICTIONS")
+    diet_dfs = [] #holds list of df subsets 
+    
+    print("COLUMNS: " + matches.columns.values)
+
+    for dietary_restriction in selected_diets: 
+        print("DIETARY RESTRICTION:" + str(dietary_restriction))
+
+    for dietary_restriction in selected_diets: 
+        print("DIETARY RESTRICTION:" + str(dietary_restriction))
+        new_df = matches.loc[matches[dietary_restriction]=='Y']
+        print("NEW DF")
+        print(new_df)
+        diet_dfs.append(new_df)
+        print("UPDATED LENGTH OF LIST DIET_DFS:" + str(len(diet_dfs)))
+    
+    #merge df subsets (take union of recipes that adhere to at least 1 dietary restriction)
+    matches = pd.concat(diet_dfs)
+    print("CONCAT")
+    print(matches)
+    print("DROP DUPS")
+    matches = matches.drop_duplicates(subset=["id"])
+    print(matches)
+
+    print("MERGED DIET DFS")
+    print(matches)
+
 
     #new
     query_tfidf = vectorizer.transform([svd]).toarray()
