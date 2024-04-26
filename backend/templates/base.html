@@ -20,14 +20,14 @@
         <img id="logo-img" src="../static/images/dnms-kitchen-logo.svg" />
       </div>
       <div class="mt-5 form">
-        <div class="mt-2 mb-4 w-75" >
+        <div class="mt-2 mb-4 w-75">
           <!-- <img src="{{ url_for('static', filename='images/mag.png') }}" /> -->
           <input class="form-control" placeholder="Enter comma-separated ingredients to search DNM's recipes"
             id="ingredients-input">
         </div>
         <div class="sub-inputs w-75">
           <p class="mt-2">Additional Filters</p>
-          <div class="mb-4" >
+          <div class="mb-4">
             <label for="minutes-input" class="form-label">Max cooking time, mins (Required)</label>
             <input class="form-control w-25" placeholder="Ex: 30" id="minutes-input">
           </div>
@@ -39,41 +39,41 @@
             </button>
             <ul id="appliance-menu" class="appliance-menu dropdown-menu" aria-labelledby="applianceDropdown">
               <li><label>
-                <input type="checkbox" value="Oven">
-                Oven
-              </label></li>
+                  <input type="checkbox" value="Oven">
+                  Oven
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Microwave">
-                Microwave
-              </label></li>
+                  <input type="checkbox" value="Microwave">
+                  Microwave
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Air-Fryer">
-                Air Fryer
-              </label></li>
+                  <input type="checkbox" value="Air-Fryer">
+                  Air Fryer
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Stove">
-                Stove
-              </label></li>
+                  <input type="checkbox" value="Stove">
+                  Stove
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Pan">
-                Pan
-              </label></li>
+                  <input type="checkbox" value="Pan">
+                  Pan
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Blender">
-                Blender
-              </label></li>
+                  <input type="checkbox" value="Blender">
+                  Blender
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Toaster">
-                Toaster
-              </label></li>
+                  <input type="checkbox" value="Toaster">
+                  Toaster
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Rice-Cooker">
-                Rice Cooker
-              </label></li>
+                  <input type="checkbox" value="Rice-Cooker">
+                  Rice Cooker
+                </label></li>
               <li><label>
-                <input type="checkbox" value="Pressure-Cooker">
-                Pressure Cooker
-              </label></li>
+                  <input type="checkbox" value="Pressure-Cooker">
+                  Pressure Cooker
+                </label></li>
             </ul>
           </div>
 
@@ -87,31 +87,31 @@
               <li><label>
                   <input type="checkbox" value="Vegetarian">
                   Vegetarian
-              </label></li>
+                </label></li>
               <li><label>
                   <input type="checkbox" value="Vegan">
                   Vegan
-              </label></li>
+                </label></li>
               <li><label>
                   <input type="checkbox" value="Pescatarian">
                   Pescatarian
-              </label></li>
+                </label></li>
               <li><label>
                   <input type="checkbox" value="Lactose-Intorlerant">
                   Lactose Intolerant
-              </label></li>
+                </label></li>
               <li><label>
                   <input type="checkbox" value="Peanut-Allergy">
                   Peanut Allergy
-              </label></li>
+                </label></li>
               <li><label>
                   <input type="checkbox" value="Kosher">
                   Kosher
-              </label></li>
+                </label></li>
               <li><label>
                   <input type="checkbox" value="Halal">
                   Halal
-              </label></li>
+                </label></li>
             </ul>
           </div>
 
@@ -138,13 +138,13 @@
 
   <script>
     const icons = {
-      'Gluten Free': 'fa-wheat-awn', 
-      'Halal': 'fa-star-and-crescent', 
-      'Kosher': 'fa-star-of-david', 
-      'Lactose Free': 'fa-glass-water', 
-      'Peanut Free': 'fa-face-smile', 
-      'Pescatarian': 'fa-fish', 
-      'Vegan': 'fa-leaf', 
+      'Gluten Free': 'fa-wheat-awn',
+      'Halal': 'fa-star-and-crescent',
+      'Kosher': 'fa-star-of-david',
+      'Lactose Free': 'fa-glass-water',
+      'Peanut Free': 'fa-face-smile',
+      'Pescatarian': 'fa-fish',
+      'Vegan': 'fa-leaf',
       'Vegetarian': 'fa-seedling'
     }
 
@@ -165,7 +165,7 @@
       let restReviewsDiv = document.createElement('div')
       restReviews.forEach(review => {
         let reviewP = document.createElement('p')
-        reviewP.innerHTML = "\""+review+"\""
+        reviewP.innerHTML = "\"" + review + "\""
         restReviewsDiv.append(reviewP)
       })
 
@@ -178,9 +178,9 @@
         let ingrEl = document.createElement("p");
         ingrEl.innerHTML = ingr;
         ingrEl.classList.add('ingredient')
-        tempDiv.append(ingrEl); 
+        tempDiv.append(ingrEl);
       })
-      
+
       // Rating Stars
       const roundedRating = Math.round(avgrating)
       const decimalRating = Math.round(avgrating, 2)
@@ -194,14 +194,14 @@
 
       // Steps
       var re = /(^|[.!?]\s+)([a-z])/g;
-      stepsUppercased = stepslst.replace(re, function(x){return x.toUpperCase();});
+      stepsUppercased = stepslst.replace(re, function (x) { return x.toUpperCase(); });
 
       // document.getElementById("answer-box").appendChild(tempDiv);
       let labelsWrapper = document.createElement('div')
       let labelsDiv = document.createElement('div')
       labelsWrapper.append(labelsDiv)
       // const labels = ['gluten', 'halal', 'kosher', 'lactose', 'peanut', 'pescatarian', 'vegan', 'vegetarian']
-      const labels = {'Gluten Free':gluten, 'Halal':halal, 'Kosher':kosher, 'Lactose Free':lactose, 'Peanut Free':peanut, 'Pescatarian':pescatarian, 'Vegetarian':vegetarian, 'Vegan':vegan}
+      const labels = { 'Gluten Free': gluten, 'Halal': halal, 'Kosher': kosher, 'Lactose Free': lactose, 'Peanut Free': peanut, 'Pescatarian': pescatarian, 'Vegetarian': vegetarian, 'Vegan': vegan }
 
 
       Object.keys(labels).forEach(label => {
@@ -309,7 +309,8 @@
         ingredient: document.getElementById("ingredients-input").value,
         minutes: document.getElementById("minutes-input").value,
         svd: svdInput,
-        avoid: document.getElementById("avoid-input").value
+        avoid: document.getElementById("avoid-input").value,
+        diet: selectedDiets
       }).toString())
         .then(response => {
           if (response.ok) {
@@ -325,24 +326,24 @@
             data.forEach(row => {
               console.log(row)
               let tempDiv = document.createElement("div");
-              tempDiv.innerHTML = answerBoxTemplate(row.name, 
-              row.ingredients, 
-              row.minutes, 
-              row.steps, 
-              row.avg_rating, 
-              row.jacc_sim, 
-              row.svd_sim,
-              row.sentiment_category, 
-              row.sentiment,
-              row.review,
-              row['gluten free'], 
-              row['halal'], 
-              row['kosher'], 
-              row['lactose intolerant'],
-              row['peanut allergy'],
-              row['pescatarian'],
-              row['vegetarian'],
-              row['vegan']);
+              tempDiv.innerHTML = answerBoxTemplate(row.name,
+                row.ingredients,
+                row.minutes,
+                row.steps,
+                row.avg_rating,
+                row.jacc_sim,
+                row.svd_sim,
+                row.sentiment_category,
+                row.sentiment,
+                row.review,
+                row['gluten free'],
+                row['halal'],
+                row['kosher'],
+                row['lactose intolerant'],
+                row['peanut allergy'],
+                row['pescatarian'],
+                row['vegetarian'],
+                row['vegan']);
               document.getElementById("answer-box").appendChild(tempDiv);
             });
           } else {
@@ -366,5 +367,5 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
     integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
     crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/d6bceb316e.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/d6bceb316e.js" crossorigin="anonymous"></script>
 </body>
