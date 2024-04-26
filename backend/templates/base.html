@@ -97,7 +97,7 @@
                   Pescatarian
                 </label></li>
               <li><label>
-                  <input type="checkbox" value="Lactose-Intorlerant">
+                  <input type="checkbox" value="Lactose-Intolerant">
                   Lactose Intolerant
                 </label></li>
               <li><label>
@@ -313,14 +313,9 @@
       fetch("/recipes?" + new URLSearchParams({
         ingredient: document.getElementById("ingredients-input").value,
         minutes: document.getElementById("minutes-input").value,
-<<<<<<< HEAD
         svd: svdInput,
         avoid: document.getElementById("avoid-input").value,
         diet: selectedDiets
-=======
-        svd: document.getElementById("svd-input").value,
-        avoid: document.getElementById("avoid-input").value
->>>>>>> 86e4faceb523b011490a19ec0af5a72252d400de
       }).toString())
         .then(response => {
           if (response.ok) {
@@ -349,7 +344,7 @@
                 row['gluten free'],
                 row['halal'],
                 row['kosher'],
-                row['lactose intolerant'],
+                row['lactose-intolerant'],
                 row['peanut allergy'],
                 row['pescatarian'],
                 row['vegetarian'],
