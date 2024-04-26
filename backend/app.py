@@ -36,9 +36,10 @@ app = Flask(__name__)
 CORS(app)
 
 # ingr is the ingredients input, mins is the minutes input, svd is the freeforms
-def json_search(ingr, mins, svd, avoid, calorie):
+def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
     matches = []
     
+    print(selected_diets)
     #extract list of ingredients from user query
     ingr_list = preprocessing.tokenize_ingr_list(ingr)
     print("TYPE OF AVOID")
@@ -115,7 +116,8 @@ def recipes_search():
     svd = request.args.get("svd", default=" ")
     avoid = request.args.get("avoid")
     calorie = request.args.get("calorie", default="10000")
-    response = json_search(ingr, mins, svd, avoid, calorie)
+    selected_diets = request.args.get("diet")
+    response = json_search(ingr, mins, svd, avoid, calorie, selected_diets)
     return response
 
 if 'DB_NAME' not in os.environ:
