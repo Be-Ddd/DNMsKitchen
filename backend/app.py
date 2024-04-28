@@ -41,13 +41,13 @@ def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
     
     #extract list of ingredients and appliances from user query
     ingr_list = preprocessing.tokenize_ingr_list(ingr)
-    print(ingr_list)
+    #print(ingr_list)
     ingrs = list(preprocessing.inv_idx.keys())
     for ingr in range(len(ingr_list)):
         #if ingredient not in list of ingredients, find closest ingredient in list
         if ingr_list[ingr] not in preprocessing.inv_idx:
             ingr_list[ingr] = preprocessing.edit_distance_search(ingr_list[ingr],ingrs )
-    print("input_list", ingr_list)
+    #print("input_list", ingr_list)
     # print("TYPE OF AVOID")
     # print(avoid)
     # if (avoid == None):
