@@ -136,4 +136,115 @@ def avoid_ingr(avoid_lst, recipe):
     return True     
   else:
     return False
+
+
+def insertion_cost(message, j):
+    return 1
+
+
+def deletion_cost(query, i):
+    return 1
+
+
+def substitution_cost(query, message, i, j):
+    if query[i - 1] == message[j - 1]:
+        return 0
+    else:
+        return 1
+
+def edit_matrix(query, message, ins_cost_func, del_cost_func, sub_cost_func):
+    """Calculates the edit matrix
+
+    Arguments
+    =========
+
+    query: query string,
+
+    message: message string,
+
+    ins_cost_func: function that returns the cost of inserting a letter,
+
+    del_cost_func: function that returns the cost of deleting a letter,
+
+    sub_cost_func: function that returns the cost of substituting a letter,
+
+    Returns:
+        edit matrix {(i,j): int}
+    """
+
+    m = len(query) + 1
+    n = len(message) + 1
+
+    chart = {(0, 0): 0}
+    for i in range(1, m):
+        chart[i, 0] = chart[i - 1, 0] + del_cost_func(query, i)
+    for j in range(1, n):
+        chart[0, j] = chart[0, j - 1] + ins_cost_func(message, j)
+    for i in range(1, m):
+        for j in range(1, n):
+            chart[i, j] = min(
+                chart[i - 1, j] + del_cost_func(query, i),
+                chart[i, j - 1] + ins_cost_func(message, j),
+                chart[i - 1, j - 1] + sub_cost_func(query, message, i, j),
+            )
+    return chart
+
+def edit_distance(
+    query: str, message: str, ins_cost_func: int, del_cost_func: int, sub_cost_func: int
+) -> int:
+    """Finds the edit distance between a query and a message using the edit matrix
+
+    Arguments
+    =========
+    query: query string,
+
+    message: message string,
+
+    ins_cost_func: function that returns the cost of inserting a letter,
+
+    del_cost_func: function that returns the cost of deleting a letter,
+
+    sub_cost_func: function that returns the cost of substituting a letter,
+
+    Returns:
+        edit cost (int)
+    """
+
+    query = query.lower()
+    message = message.lower()
+    D= edit_matrix(query,message,ins_cost_func,del_cost_func,sub_cost_func)
+    return (D[len(query),len(message)])
+
+
+
+
+def edit_distance_search(
+    query: str,
+    msgs: List[str],
+) -> str:
+    """Edit distance search
+
+    Arguments
+    =========
+    query: string,
+        The query we are looking for.
+
+    msgs: list of strings
+
+    ins_cost_func: function that returns the cost of inserting a letter,
+
+    del_cost_func: function that returns the cost of deleting a letter,
+
+    sub_cost_func: function that returns the cost of substituting a letter,
+
+    Returns
+    =======
+    result: the closest message to the query
+
+    """
+    lst=[]
+    for msg in msgs:
+      dis=edit_distance(query,msg,insertion_cost,deletion_cost,substitution_cost)
+      lst.append((dis,msg))
+    return sorted(lst, key=lambda tup: tup[0])[0][1]
                     
