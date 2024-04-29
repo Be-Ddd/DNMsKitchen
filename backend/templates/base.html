@@ -336,7 +336,7 @@
       fetch("/recipes?" + new URLSearchParams({
         ingredient: document.getElementById("ingredients-input").value,
         minutes: document.getElementById("minutes-input").value,
-        svd: svdInput,
+        svd: document.getElementById("svd-input").value,
         avoid: document.getElementById("avoid-input").value,
         diet: selectedDiets
       }).toString())
