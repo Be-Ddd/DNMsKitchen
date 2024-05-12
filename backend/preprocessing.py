@@ -13,9 +13,9 @@ def create_df():
 
   # Merge recipes and interactions to extract data
   merged_data = pd.merge(raw_recipes, pp_recipes, on='id', how='inner')
-  recipes = merged_data[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'calorie_level']]
+  recipes = merged_data[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'calorie_level', 'tags']]
   recipes_review_merge = pd.merge(recipes, interactions, left_on='id',right_on='recipe_id', how='inner')
-  recipes_review = recipes_review_merge[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'rating','review', 'calorie_level']]
+  recipes_review = recipes_review_merge[['id', 'name', 'minutes', 'ingredient_ids', 'ingredients', 'steps','description', 'rating','review', 'calorie_level', 'tags']]
 
   # Compute average rating and combine reviews into a list of reviews
   # Drop duplicated rows

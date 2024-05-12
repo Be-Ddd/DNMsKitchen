@@ -36,7 +36,7 @@ app = Flask(__name__)
 CORS(app)
 
 # ingr is the ingredients input, mins is the minutes input, svd is the freeforms
-def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
+def json_search(ingr, mins, svd, avoid, calorie, selected_diets, appliances):
     matches = []
     
     #extract list of ingredients and appliances from user query
@@ -67,6 +67,13 @@ def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
         #make letters all lowercase for dietary restrictions
         selected_diets = [dietary_restriction.lower() for dietary_restriction in selected_diets]
 
+    #if no appliances selected, then appliances = "". Only process appliances input if its != "".
+    if appliances != "": 
+        #extract list of dietary restrictions from user query
+        appliances = preprocessing.tokenize_ingr_list(appliances)
+        #make letters all lowercase for dietary restrictions
+        appliances = [appliance.lower() for appliance in appliances]
+
     #Create a dictionary that maps recipe id to jaccard sim score 
     #Calculate jacc sim score between recipe ing list and query ing list for recipes that contain 1 or more query ingredients. 
     scores = {}
@@ -77,7 +84,8 @@ def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
                 scores[row["id"]] = sim_score
     
     #sort dictionary by sim scores in descending order
-    scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
+    #scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
+    scores = {key: round(value, 3) for key, value in sorted(scores.items(), key=lambda item: item[1], reverse=True)}
     print("SCORES")
     print(scores)
 
@@ -132,6 +140,13 @@ def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
         print(matches)
 
 
+    
+    
+    # # Add the appliance_score column to the matches dataframe
+    # print("APPLIANCE SCORES")
+    # print(matches)
+
+
     #new
     query_tfidf = vectorizer.transform([svd]).toarray()
     query_vec = normalize(np.dot(query_tfidf, words_compressed)).squeeze()
@@ -140,16 +155,38 @@ def json_search(ingr, mins, svd, avoid, calorie, selected_diets):
     print(svd_scores)
 
     matches['svd_sim'] = matches['id'].map(svd_scores)
+    matches['svd_sim'] = matches['svd_sim'].round(3)
+
 
     #sentiment analysis
     matches['sentiment'] = matches['review'].apply(get_sentiment)
+    matches['sentiment'] = matches['sentiment'].round(3)
+
     matches['sentiment_category'] = matches['sentiment'].apply(get_sentiment_text)
     
-    
+    #appliance input handling
+    matches['appliance_score'] = 0
+
+    for index, row in matches.iterrows():
+        appliance_count = 0
+        for appliance in appliances:
+            # Check if the appliance is found in either the "tags" or "steps" columns of the recipe
+            if (appliance in row['tags']):
+                appliance_count += 1
+            for step in row['steps']:
+                if appliance in step:
+                    appliance_count += 1
+                    continue
+        # Calculate the percentage of appliances that match
+        appliance_score = (appliance_count*1.0 / len(appliances))
+        matches.at[index, 'appliance_score'] = appliance_score
+
+        
     #Sort recipes in matches df by similarity score and convert it to JSON format. 
-    matches = matches.sort_values(by=['jacc_sim','svd_sim', 'sentiment'], ascending=False)
+    matches = matches.sort_values(by=['appliance_score', 'jacc_sim', 'svd_sim', 'sentiment'], ascending=False)
     matches_json = matches.to_json(orient='records')
-    print("MATCHES AS JSON")
+    print("MATCHES AS JSON WITH APPLIANCES")
+    print(matches)
     return matches_json
 
 
@@ -170,7 +207,8 @@ def recipes_search():
     avoid = request.args.get("avoid")
     calorie = request.args.get("calorie", default="10000")
     selected_diets = request.args.get("diet")
-    response = json_search(ingr, mins, svd, avoid, calorie, selected_diets)
+    appliances = request.args.get("appliances")
+    response = json_search(ingr, mins, svd, avoid, calorie, selected_diets, appliances)
     return response
 
 if 'DB_NAME' not in os.environ:

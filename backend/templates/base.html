@@ -46,34 +46,38 @@
                   <input type="checkbox" value="Microwave">
                   Microwave
                 </label></li>
-              <li><label>
+              <!-- <li><label>
                   <input type="checkbox" value="Air-Fryer">
-                  Air Fryer
+                  Air Fryer -->
                 </label></li>
               <li><label>
                   <input type="checkbox" value="Stove">
                   Stove
                 </label></li>
-              <li><label>
+                <li><label>
+                  <input type="checkbox" value="Pot">
+                  Pot
+                </label></li>
+              <!-- <li><label>
                   <input type="checkbox" value="Pan">
                   Pan
-                </label></li>
+                </label></li> -->
               <li><label>
                   <input type="checkbox" value="Blender">
                   Blender
                 </label></li>
-              <li><label>
+              <!-- <li><label>
                   <input type="checkbox" value="Toaster">
                   Toaster
-                </label></li>
-              <li><label>
+                </label></li> -->
+              <!-- <li><label>
                   <input type="checkbox" value="Rice-Cooker">
                   Rice Cooker
                 </label></li>
               <li><label>
                   <input type="checkbox" value="Pressure-Cooker">
                   Pressure Cooker
-                </label></li>
+                </label></li> -->
             </ul>
           </div>
 
@@ -160,7 +164,7 @@
 
     // const icons = ['fa-wheat-awn', 'fa-star-and-cresent', 'fa-star-of-david', 'fa-glass-water', 'fa-face-smile', 'fa-fish', 'fa-leaf', 'fa-seedling']
 
-    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, sentcat, sent, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegetarian, vegan) {
+    function answerBoxTemplate(name, ingredients, minutes, steps, avgrating, jaccsim, svdsim, sentcat, sent, reviews, gluten, halal, kosher, lactose, peanut, pescatarian, vegetarian, vegan, appliancescore) {
       const ingr = ingredients.join(", ");
       const recipe = name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
       const stepslst = steps.join(". ")
@@ -263,6 +267,9 @@
                 <div class="row">
                   <p class='episode-desc'>Ingredient Similarity: ${jaccsim}, Description Similarity: ${svdsimRounded}</p>
                 </div>
+                <div class="row">
+                  <p class='episode-desc'>Appliance Score: ${appliancescore}</p>
+                </div>
                 <p class='episode-desc'>User Review Sentiment: ${sentcat} (${sent})</p>
                 <p class='episode-desc subheading'>Instructions</p>
                 <div>
@@ -338,7 +345,8 @@
         minutes: document.getElementById("minutes-input").value,
         svd: document.getElementById("svd-input").value,
         avoid: document.getElementById("avoid-input").value,
-        diet: selectedDiets
+        diet: selectedDiets,
+        appliances: selectedAppliances
       }).toString())
         .then(response => {
           if (response.ok) {
@@ -371,7 +379,8 @@
                 row['peanut allergy'],
                 row['pescatarian'],
                 row['vegetarian'],
-                row['vegan']);
+                row['vegan'],
+                row.appliance_score);
               document.getElementById("answer-box").appendChild(tempDiv);
             });
           } else {
